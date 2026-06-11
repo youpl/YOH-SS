@@ -5373,3 +5373,215 @@ DNS vidé ou inaccessible
 				→ Protections système compromises
 			* Commande utile :
 				→ cmdcoreinfo.exe
+
+
+    ____  __                       ___   |___  
+   / __ \/ /_  ____ _________     |__ \ / __ \
+  / /_/ / __ \/ __ `/ ___/ _ \    __/ // /  / 
+ / ____/ / / / /_/ (__  )  __/   / __// /__/  
+/_/   /_/ /_/\__,_/____/\___/   /____/\____/  
+                                              
+
+	Phase 21 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
+
+		Objectif :
+			* Détecter un bypass exécutant CMD en tant que « package » pour masquer un cheat
+			* Repérer le remplacement (replace) d'un cheat par un programme légitime
+			* Corréler les traces avec l'heure de jeu / lancement Minecraft
+
+		Principe de la méthode (pour comprendre quoi chercher) :
+			* CMD est lancé sous forme de « package » via Microsoft.WindowsTerminal, avec privilèges administrateur
+			* Un fichier cheat est temporairement renommé / remplacé par le nom d'un programme légitime
+			* Une fois la vérification passée, le fichier original est restauré
+			* Résultat : la personne qui inspecte le fichier ne voit qu'un programme légitime
+			⚠️ Cette phase ne sert qu'à DÉTECTER la méthode, jamais à la reproduire.
+
+		────────────────────────────────────────────
+		Indicateur 1 | Traces dans BAM
+
+			* L'ouverture de CMD en « package » nécessite Microsoft.WindowsTerminal
+			* Cette opération laisse une trace WindowsTerminal dans BAM, avec l'heure exacte
+			* Consultation : → Voir Phase 7 – BAM (consulter via Regedit ou WinLiveInfo)
+			
+			⚠️ Interprétation prudente :
+				- Une entrée WindowsTerminal seule N'EST PAS une preuve
+				- Elle peut provenir d'une utilisation légitime du terminal
+				- Plus suspect uniquement si WindowsTerminal apparaît dès le démarrage du PC
+				  (Windows ne l'enregistre pas naturellement à cet instant)
+			
+			(Réf. image : https://imgur.com/a/5HHGHrK)
+
+		────────────────────────────────────────────
+		Indicateur 2 | Traces dans le Kernel
+
+			* Un dump du Kernel peut parfois contenir une partie (voire la totalité) de la commande utilisée :
+				- la commande d'ouverture de CMD en package
+				- la commande exécutée à l'intérieur du CMD
+			* Procédure : → Voir Phase 12 – MFT (section Analyse mémoire Kernel)
+			
+			⚠️ Souvent rien n'est présent : l'absence de trace ne disculpe pas, mais une trace est un indice fort.
+			
+			(Réf. image : https://imgur.com/a/oDtYsYX)
+
+		────────────────────────────────────────────
+		Indicateur 3 | Traces dans DPS
+
+			* Un dump DPS filtré sur « Microsoft.WindowsTerminal » peut révéler des traces de l'opération
+			* Aucun résultat = bon élément pour ÉCARTER ce bypass
+			* Si résultats présents, analyser attentivement :
+				- une entrée Microsoft.WindowsTerminal suivie d'un exécutable suspect
+				  → l'exécutable peut être le programme légitime servant à masquer le cheat
+				- la présence de conhost.exe
+				  → généralement lié au CMD exécuté en tant que package
+			
+			(Réf. image : https://imgur.com/a/k8nUcZ3)
+
+		────────────────────────────────────────────
+		Indicateur 4 | Traces dans DiagTrack / TextInputHost
+
+			* DiagTrack et des processus comme TextInputHost peuvent parfois contenir des fragments des commandes
+			* Mots-clés à rechercher :
+				- Microsoft.WindowsTerminal
+				- WindowsTerminal
+				- conhost
+			
+			⚠️ Aide LIMITÉE : ces informations disparaissent très vite et n'apportent souvent rien.
+			   Mais quand ça fonctionne, c'est une preuve complémentaire intéressante.
+			
+			(Réf. image : https://imgur.com/a/FVsHrRj)
+
+		────────────────────────────────────────────
+		Indicateur 5 | Data Truncation dans le Journal système
+
+			* La méthode laisse souvent un événement de type « Data Truncation » dans le journal
+			* C'est un indice de modification de fichier, cohérent avec un remplacement
+			* Procédure : → Voir Phase 11 – EventLogs (consulter le journal système)
+			
+			⚠️ Un Data Truncation NE prouve PAS à lui seul un remplacement → toujours croiser
+			* Bonne pratique : comparer l'heure du Data Truncation avec l'heure de l'exécution suspecte.
+			  Le remplacement étant immédiat, les deux événements doivent coïncider.
+			
+			(Réf. image : https://imgur.com/a/Qucx7Wi)
+
+		────────────────────────────────────────────
+		SYNTHÈSE DÉTECTION
+
+			* Aucun indicateur ci-dessus n'est suffisant seul
+			* La preuve = corrélation temporelle entre plusieurs indicateurs
+			  (BAM + DPS + conhost + Data Truncation à la même heure)
+			* Toujours corréler avec :
+				- → Phase 5 (Prefetch)
+				- → Phase 7 (BAM)
+				- → Phase 10 (SRUM)
+				- → Phase 12 (MFT)
+				- → Phase 11 (EventLogs)
+
+
+    ____  __                       ___  ____   
+   / __ \/ /_  ____ _________     |__ \/  __ \ 
+  / /_/ / __ \/ __ `/ ___/ _ \    __/ / / /_/ /
+ / ____/ / / / /_/ (__  )  __/   / __/ / ____/ 
+/_/   /_/ /_/\__,_/____/\___/   /____/ /_/     
+                                               
+
+	Phase 22 – PE Injection (Portable Executable en mémoire) – DÉTECTION
+
+		Objectif :
+			* Détecter le chargement d'un PE (Portable Executable .exe ou .dll) en mémoire
+			* Identifier un injecteur qui charge un cheat sans passer par le disque
+			* Retrouver les signatures ou imports de l'injecteur en mémoire
+			* Corréler l'injection avec les processus légitimes utilisant comme conteneur
+
+		Rappel technique – Concept de PE Injection :
+			* Au lieu d'exécuter un cheat via le chargeur standard de Windows (CreateProcess + LdrLoadDll),
+			  un injecteur fonctionne ainsi :
+				1. Crée ou ouvre un processus légitime
+				2. Réserve de la mémoire dans ce processus (VirtualAllocEx)
+				3. Écrit le PE en mémoire (WriteProcessMemory)
+				4. Modifie le contexte d'un thread ou en crée un nouveau (SetThreadContext / CreateRemoteThread)
+				5. Exécute le point d'entrée (Entry Point) du PE chargé manuellement
+			
+			⚠️ Il existe différentes méthodes de PE Injection ; elles ne fonctionnent pas toutes de cette manière.
+			* Résultat du bypass : dans les traces système (BAM, Prefetch, etc.), 
+			  ce n'est pas le cheat qui apparaît, mais le processus légitime utilisé comme conteneur.
+
+		────────────────────────────────────────────
+		Indicateur 1 | Retrouver l'injecteur via DIE (Detect It Easy)
+
+			* Un injecteur classique (non obfusqué) peut contenir certains imports visibles
+			* Outil requis : DIE (Detect It Easy) → Voir Tools Bible (ALL TOOLS SSA)
+			
+			Procédure :
+				1. Ouvrir DIE
+				2. Charger le fichier suspect (l'injecteur)
+				3. Examiner la section « Imports »
+				4. Chercher les imports typiques d'injection :
+					- VirtualAllocEx
+					- WriteProcessMemory
+					- CreateRemoteThread
+					- SetThreadContext
+					- ResumeThread
+			
+			* Exemple de signatures d'injecteur : https://pastebin.com/MCKsUuKh
+			* Tutoriel vidéo : https://www.youtube.com/watch?v=rY6-iBrct48 (Crédits : @shiya.py)
+
+		────────────────────────────────────────────
+		Indicateur 2 | Rechercher les signatures en mémoire RAM
+
+			* Un dump RAM peut contenir des fragments du PE injecté
+			* Procédure : → Voir Phase 2 – Mémoire & exécution ACTIVE (analyser avec FTK Imager et String64)
+			
+			* Mots-clés / signatures à rechercher :
+				- Messages d'erreur du cheat
+				- Chemins d'accès au cheat (%TEMP%, %APPDATA%, etc.)
+				- Noms de fonctions importées
+			
+			* Exemple de signatures caractéristiques : https://pastebin.com/VBRyBxEE (Crédits : @shiya.py)
+
+		────────────────────────────────────────────
+		Indicateur 3 | Traces dans KernelLiveDump
+
+			* Un dump Kernel live peut montrer l'injection en cours
+			* Procédure : → Voir Phase 2 (analyser avec System Informer pour récupérer le dump)
+			
+			⚠️ Peut contenir des fragments de commandes ou d'imports non vus en mémoire utilisateur
+
+		────────────────────────────────────────────
+		Indicateur 4 | Corréler avec les processus conteneur
+
+			* Identifier le processus légitime utilisé comme conteneur (javaw.exe, explorer.exe, svchost.exe, etc.)
+			* Procédure : → Voir Phase 2 – Mémoire (lister les processus actifs avec leurs DLLs chargées)
+			* Chercher des anomalies :
+				- Processus légitime avec DLLs non standard chargées (AppData, Temp, Downloads)
+				- Allocations mémoire inhabituellement grandes pour ce processus
+				- Threads créés de manière suspecte (CreateRemoteThread laisse des traces)
+
+		────────────────────────────────────────────
+		Indicateur 5 | Retrouver l'injecteur via trace USN / Prefetch
+
+			* L'injecteur lui-même doit être exécuté AVANT l'injection
+			* Procédure :
+				- → Voir Phase 4 – USN Journal (chercher la création du fichier injecteur)
+				- → Voir Phase 5 – Prefetch (chercher l'exécution de l'injecteur)
+			* Chercher un fichier récemment créé ou supprimé portant un nom banal ou aléatoire
+
+		────────────────────────────────────────────
+		Indicateur 6 | SRUM – corrélation temporelle avec le conteneur
+
+			* Vérifier que l'injecteur et le conteneur ont été actifs au même moment
+			* Procédure : → Voir Phase 10 – SRUM (analyser l'activité CPU / réseau)
+			* Chercher :
+				- injecteur + conteneur (javaw.exe) actifs simultanément
+				- un pic anormal d'activité pendant que Minecraft était en cours
+
+		────────────────────────────────────────────
+		SYNTHÈSE DÉTECTION PE Injection
+
+			* Aucune indicateur ci-dessus n'est concluant seul
+			* Approche forensic :
+				1. Chercher l'injecteur (DIE, USN, Prefetch)
+				2. Vérifier le conteneur (processus avec DLLs suspectes)
+				3. Corréler temporellement (SRUM, BAM, Prefetch)
+				4. Analyser la mémoire pour les signatures (RAM dump, Kernel dump)
+			
+			* Une preuve solide = injecteur trouvé + conteneur identifié + signatures en mémoire + corrélation horaire
