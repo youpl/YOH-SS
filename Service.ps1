@@ -1,5 +1,5 @@
 # ===============================================
-# PowerShell Admin Check-Up + Réactivation
+# PowerShell Admin Check-Up + Réactivation (FIXED)
 # ===============================================
 
 # 1️⃣ Services à contrôler
@@ -46,7 +46,7 @@ foreach ($service in $services) {
     }
 }
 
-# 2️⃣ Paramètres Windows
+# 2️⃣ Paramètres Windows (AVEC création de chemins manquants)
 $settings = @(
     @{ Name="CMD"; Path="HKCU:\Software\Policies\Microsoft\Windows\System"; Key="DisableCMD"; Safe="Available"; Warning="Disabled" },
     @{ Name="PowerShell Logging"; Path="HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging"; Key="EnableScriptBlockLogging"; Safe="Enabled"; Warning="Disabled" },
@@ -54,6 +54,15 @@ $settings = @(
 )
 
 foreach ($s in $settings) {
+    # Vérifier si le chemin existe, sinon le créer
+    if (-not (Test-Path $s.Path)) {
+        try {
+            New-Item -Path $s.Path -Force | Out-Null
+        } catch {
+            Write-Host "Impossible de créer le chemin: $($s.Path)" -ForegroundColor Red
+        }
+    }
+    
     $status = Get-ItemProperty -Path $s.Path -Name $s.Key -ErrorAction SilentlyContinue
     if ($status) {
         if ($status.$($s.Key) -eq 0) {
@@ -71,7 +80,7 @@ foreach ($s in $settings) {
             $color = "Cyan"
         }
     } else {
-        # Clé absente → possible bypass, on recrée si on veut
+        # Clé absente → créer maintenant que le chemin existe
         try {
             New-ItemProperty -Path $s.Path -Name $s.Key -PropertyType DWORD -Value 1 -Force | Out-Null
             $statusText = "Clé manquante → Créée ✅ [Bypass possible]"
