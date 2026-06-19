@@ -5914,3 +5914,188 @@ DNS vidé ou inaccessible
 				4. Analyser la mémoire pour les signatures (RAM dump, Kernel dump)
 			
 			* Une preuve solide = injecteur trouvé + conteneur identifié + signatures en mémoire + corrélation horaire
+
+
+    ____  __                       ___  ____  
+   / __ \/ /_  ____ _________     |__ \|___ \ 
+  / /_/ / __ \/ __ `/ ___/ _ \    __/ / __) |
+ / ____/ / / / /_/ (__  )  __/   / __/ / ___/ 
+/_/   /_/ /_/\__,_/____/\___/   /____//____/  
+                                              
+
+
+	Phase 23 – Analyse Netsh / Pare-feu Windows
+
+		Objectif :
+			* Détecter une utilisation anormale de netsh.exe
+			* Identifier des règles de pare-feu créées récemment ou de manière suspecte
+			* Vérifier si un logiciel a tenté de bloquer un anti-cheat ou un outil de scan
+			* Détecter une coupure réseau volontaire pendant une vérification
+			* Corréler les modifications du pare-feu avec l'exécution d'un cheat
+
+		⚠️ Rappel : netsh.exe est utilisé légitimement par Windows, les VPN et les pilotes réseau.
+		   La présence seule de netsh.exe est un indicateur TRÈS FAIBLE.
+		   Ce qui compte : la commande exécutée et les règles réellement créées.
+
+		────────────────────────────────────────────
+		Étape 1 | Vérifier les exécutions de netsh.exe
+
+			→ Prefetch (PECmd) :
+				* Chercher : NETSH.EXE-*.pf
+				* Commande :
+					.\PECmd.exe -f "C:\Windows\Prefetch\NETSH.EXE-*.pf" --csv C:\Temp\Prefetch_netsh.csv
+				* Ouvrir le CSV avec Timeline Explorer
+				* Vérifier :
+					- Date et heure de dernière exécution
+					- Nombre total d'exécutions
+
+			→ BAM :
+				* Ouvrir Regedit :
+					HKLM\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings
+				* Chercher : netsh.exe
+				* Relever l'horodatage si présent
+
+			→ Amcache :
+				* Dans AmcacheParser ou RegistryExplorer (Amcache.hve)
+				* Chercher : netsh.exe
+				* Confirme la présence de l'exécutable sur la machine
+
+			⚠️ Si netsh.exe apparaît autour de l'heure de vérification → corréler avec les étapes suivantes.
+
+		────────────────────────────────────────────
+		Étape 2 | Lister les règles du pare-feu
+
+			* Ouvrir PowerShell (Admin) et taper :
+				Get-NetFirewallRule | Select-Object DisplayName, Direction, Action, Enabled, Owner |
+				    Sort-Object Direction | Out-GridView
+
+			* Alternativement via CMD :
+				netsh advfirewall firewall show rule name=all
+
+			Points d'attention :
+				* Règles avec un nom aléatoire, vague ou générique :
+					→ Block Java, System Service, Windows Update Fix, Microsoft Helper
+				* Règles récemment créées (comparer avec les horodatages de l'Étape 1)
+				* Règles désactivant une application réseau spécifique
+				* Action = Block + Direction = Outbound
+
+		────────────────────────────────────────────
+		Étape 3 | Cibler les règles suspectes
+
+			A. Filtrer les règles Block Outbound uniquement :
+				Get-NetFirewallRule | Where-Object { $_.Action -eq 'Block' -and $_.Direction -eq 'Outbound' } |
+				    Select-Object DisplayName, Direction, Action, Enabled, Owner | Out-GridView
+
+			B. Chercher les règles ciblant des exécutables suspects :
+				$cibles = @('java.exe','javaw.exe','powershell.exe','cmd.exe','explorer.exe')
+				Get-NetFirewallRule | ForEach-Object {
+				    $app = ($_ | Get-NetFirewallApplicationFilter -ErrorAction SilentlyContinue).Program
+				    if ($app -and ($cibles | Where-Object { $app -like "*$_*" })) {
+				        [PSCustomObject]@{
+				            Nom       = $_.DisplayName
+				            Direction = $_.Direction
+				            Action    = $_.Action
+				            Programme = $app
+				        }
+				    }
+				} | Out-GridView
+
+			⚠️ Un résultat non vide ici est un indicateur sérieux → corréler avec Étapes 4 et 1.
+
+		────────────────────────────────────────────
+		Étape 4 | Journaux d'événements Pare-feu
+
+			* Source : Microsoft-Windows-Windows Firewall With Advanced Security/Firewall
+
+			* IDs à rechercher :
+				- 2004 → règle de pare-feu ajoutée
+				- 2005 → règle de pare-feu modifiée
+				- 2006 → règle de pare-feu supprimée
+				- 2033 → règle de pare-feu supprimée par un programme
+
+			* Commande PowerShell :
+				Get-WinEvent -FilterHashtable @{
+				    LogName='Microsoft-Windows-Windows Firewall With Advanced Security/Firewall'
+				    Id=2004,2005,2006,2033
+				    StartTime=(Get-Date).AddDays(-7)
+				} -ErrorAction SilentlyContinue |
+				    Select-Object TimeCreated, Id, Message | Out-GridView
+
+			* Si aucun résultat → élargir la fenêtre temporelle :
+				Remplacer AddDays(-7) par AddDays(-30)
+
+			⚠️ Si le journal est vide ou inaccessible → voir ANNEXE ou Phase 11 (EventLogs).
+
+		────────────────────────────────────────────
+		Étape 5 | Historique PowerShell
+
+			* Chemin :
+				%APPDATA%\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+
+			* Commande PowerShell rapide :
+				$hist = "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
+				if (Test-Path $hist) {
+				    Select-String -Path $hist -Pattern 'netsh|advfirewall|firewall add'
+				} else {
+				    Write-Host "Historique introuvable ou PSReadLine désactivé"
+				}
+
+			* Chercher :
+				- netsh advfirewall firewall add rule
+				- netsh advfirewall export / import
+				- Get-NetFirewallRule
+
+		────────────────────────────────────────────
+		Étape 6 | USN Journal & fichiers .wfw
+
+			* Dans JournalTrace ou MFTECmd, chercher :
+				- netsh.exe
+				- *.wfw       (fichiers export/import de configuration pare-feu)
+
+			* Un fichier .wfw récemment créé ou supprimé peut indiquer :
+				- Export de la config avant modification (pour restaurer après vérification)
+				- Import d'une config pré-configurée bloquant un anti-cheat ou un scanner
+
+			* Commandes parfois observées :
+				netsh advfirewall export "C:\Temp\backup.wfw"
+				netsh advfirewall import "C:\Temp\backup.wfw"
+
+			* Chercher les fichiers .wfw également dans :
+				- RecentFiles (NTUSER.DAT)   → Phase 8
+				- JumpLists                  → Phase 8
+				- MFT ($MFT)                 → Phase 12
+
+		────────────────────────────────────────────
+		SYNTHÈSE – Corrélation avec le cheat
+
+			Chaîne d'événements suspecte :
+
+				netsh.exe exécuté
+				    ↓
+				Création d'une règle Block Outbound (javaw.exe / anti-cheat / scanner)
+				    ↓
+				Lancement de Minecraft / javaw.exe / cheat
+				    ↓
+				Coupure de communication ciblée pendant la vérification
+				    ↓
+				Suppression ou désactivation de la règle après la session
+
+			→ Si cette séquence est observable : documenter chaque étape avec horodatages précis.
+
+			Corréler avec :
+				→ Phase 5  – Prefetch (NETSH.EXE exécution)
+				→ Phase 7  – BAM (horodatage netsh)
+				→ Phase 11 – EventLogs (IDs 2004 / 2005 / 2006 / 2033)
+				→ Phase 4 / 4.6 – USN Journal (fichiers .wfw)
+				→ Phase 12 – MFT (création / suppression de fichiers .wfw)
+
+			Indicateurs de suspicion ÉLEVÉS :
+				* Règle Block Outbound créée juste avant ou pendant Minecraft
+				* Règle ciblant javaw.exe, java.exe ou l'anti-cheat du serveur
+				* Fichier .wfw créé ou supprimé pendant la session de jeu
+				* Historique PowerShell contenant firewall add rule
+
+			Indicateurs FAIBLES (seuls, sans contexte) :
+				* Présence seule de netsh.exe dans le Prefetch
+				* Règles Block standard créées par Windows, un VPN ou un pilote réseau
+
