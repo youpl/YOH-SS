@@ -20,14 +20,13 @@ Dans le cas de problèmatique avec certaines Commande Powershell, Windows+R ou A
 Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d'ouvrir un ticket sur le discord : https://discord.gg/7hCsxPUbFV
 
 	
-    ____  __                       ____ 
-   / __ \/ /_  ____ _________     / __ \
-  / /_/ / __ \/ __ `/ ___/ _ \   / / / /
- / ____/ / / / /_/ (__  )  __/  / /_/ / 
-/_/   /_/ /_/\__,_/____/\___/   \____/  
-                                        
+    ____  __                       ___
+   / __ \/ /_  ____ _________     <  /
+  / /_/ / __ \/ __ `/ ___/ _ \    / /
+ / ____/ / / / /_/ (__  )  __/   / /
+/_/   /_/ /_/\__,_/____/\___/   /_/
 
-	##  Préservation & contexte (AVANT TOUT)
+	Phase 1 – Préservation & contexte (AVANT TOUT)
 	Objectif :
 		* Éviter la destruction de preuves
 		* Fixer le contexte temporel
@@ -50,12 +49,12 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 		  mais QUAND et QUOI
 
     ____  __                       ___
-   / __ \/ /_  ____ _________     <  /
-  / /_/ / __ \/ __ `/ ___/ _ \    / / 
- / ____/ / / / /_/ (__  )  __/   / /  
-/_/   /_/ /_/\__,_/____/\___/   /_/   
-                                      
-	##	Mémoire & exécution ACTIVE 
+   / __ \/ /_  ____ _________     |__ \
+  / /_/ / __ \/ __ `/ ___/ _ \    __/ /
+ / ____/ / / / /_/ (__  )  __/   / __/
+/_/   /_/ /_/\__,_/____/\___/   /____/
+
+	Phase 2 – Mémoire & exécution ACTIVE
 		Objectif :
 			* Identifier ce qui est ACTUELLEMENT en mémoire
 			* Détecter un cheat actif ou un loader encore présent
@@ -149,7 +148,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 
 				⚠️ Si une DLL suspecte est chargée dans javaw.exe :
 					→ noter son chemin
-					→ corréler avec Phase 4.6, Phase 5 et recherche DLL
+					→ corréler avec Phase 5.2, Phase 6 et Phase 14 (Recherche DLL)
 
 			6. Vérifier les applications de démarrage / persistence rapide
 				* Gestionnaire de tâches -> Applications de démarrage
@@ -181,7 +180,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				* javaw.exe lancé depuis un chemin non attendu
 					→ vérifier Phase 2
 				* rundll32.exe proche d'une DLL suspecte
-					→ vérifier Phase DLL / USN / Prefetch
+					→ vérifier Phase 14 / USN / Prefetch
 
 			⚠️ PRIORITÉ ABSOLUE  
 			Si un cheat est visible ici :
@@ -194,13 +193,13 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				= preuve directe très forte
 
 
-    ____  __                      _____ 
-   / __ \/ /_  ____ _________    |___  \
-  / /_/ / __ \/ __ `/ ___/ _ \    __/  /
- / ____/ / / / /_/ (__  )  __/   / ___/ 
-/_/   /_/ /_/\__,_/____/\___/   /_____/ 
-                                       
-		##	Exécution Java & cheats .jar
+    ____  __                       _____
+   / __ \/ /_  ____ _________     |__  /
+  / /_/ / __ \/ __ `/ ___/ _ \     /_ <
+ / ____/ / / / /_/ (__  )  __/   ___/ /
+/_/   /_/ /_/\__,_/____/\___/   /____/
+
+	Phase 3 – Exécution Java & cheats .jar
 		Objectif :
 			* Détecter les autoclickers / cheats Java externes
 			* Identifier un .jar lancé via java.exe / javaw.exe
@@ -241,7 +240,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				* .dll Java/JNA dans Temp
 					→ possible bibliothèque native extraite par un programme Java
 				* .jar récent dans Temp / Downloads / Desktop
-					→ corréler avec Phase 4.6 et Phase 5
+					→ corréler avec Phase 5.2 et Phase 6
 
 			⚠️ JNativeHook seul n'est PAS une preuve suffisante.
 			⚠️ JNativeHook + javaw actif + activité pendant Minecraft = signal fort.
@@ -311,7 +310,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				→ noter le PID Java
 				→ noter l'heure de lancement
 				→ calculer le hash si le fichier existe encore
-				→ vérifier Phase 4.6 pour création / suppression / renommage
+				→ vérifier Phase 5.2 pour création / suppression / renommage
 
 			* Hash du .jar si présent :
 				Get-FileHash -Path "C:\chemin\vers\fichier.jar" -Algorithm SHA256
@@ -379,7 +378,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 					- Desktop
 				* Si une DLL suspecte est chargée :
 					→ noter le chemin
-					→ corréler avec Phase 4.6 et recherche DLL
+					→ corréler avec Phase 5.2 et Phase 14 (Recherche DLL)
 
 		Étape 7 | Méthode dcomlaunch (optionnelle / fallback)
 			Quand utiliser :
@@ -413,18 +412,18 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				- strings mémoire contenant .jar sans chemin exploitable
 
 			* À faire si doute :
-				→ Phase 4.6 - activité des .jar
-				→ Phase 5 - Prefetch JAVA/JAVAW
-				→ Phase 10 - SRUM
+				→ Phase 5.2 - activité des .jar
+				→ Phase 6 - Prefetch JAVA/JAVAW
+				→ Phase 11 - SRUM
 				→ Analyse mémoire javaw.exe
 			
-    ____  __                       _____
-   / __ \/ /_  ____ _________     |__  /
-  / /_/ / __ \/ __ `/ ___/ _ \     /_ < 
- / ____/ / / / /_/ (__  )  __/   ___/ / 
-/_/   /_/ /_/\__,_/____/\___/   /____/  
-                                        
-	## Contrôle de la corbeille & Suppression récente
+    ____  __                       __ __
+   / __ \/ /_  ____ _________     / // /
+  / /_/ / __ \/ __ `/ ___/ _ \   / // /_
+ / ____/ / / / /_/ (__  )  __/  /__  __/
+/_/   /_/ /_/\__,_/____/\___/     /_/
+
+	Phase 4 – Contrôle de la corbeille & Suppression récente
 
 	Étapes 1 :
 		Objectif :
@@ -462,8 +461,8 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 						* Cela permet de repérer rapidement les fichiers supprimés récents et suspects.
 			
 			⚠️Si corbeille vidée récemment :
-				→ passer IMMÉDIATEMENT à la "Phase 4 – USN JOURNAL"
-				→ SINON Continuer la "Phase 3 - Contrôle de la corbeille"
+				→ passer IMMÉDIATEMENT à la "Phase 5 – USN JOURNAL"
+				→ SINON Continuer la "Phase 4 - Contrôle de la corbeille"
 	
 	Etape 2 | Recherche appronfodi suite à un Horodatage récent : 
 		Objectif :
@@ -509,12 +508,13 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				* Vous aurez les noms et ancien chemin d'accès de tout fichier supprimer récement de la corbeille.
 				
 	
-	____  __                       __ __     
-   / __ \/ /_  ____ _________     / // /     
-  / /_/ / __ \/ __ `/ ___/ _ \   / // /_     
- / ____/ / / / /_/ (__  )  __/  /__  __/     
-/_/ __/_/ /_/\__,_/____/\___/     /_/
-	## USN JOURNAL (Méthode Semi automatique)	
+    ____  __                       ______
+   / __ \/ /_  ____ _________     / ____/
+  / /_/ / __ \/ __ `/ ___/ _ \   /___ \
+ / ____/ / / / /_/ (__  )  __/  ____/ /
+/_/   /_/ /_/\__,_/____/\___/  /_____/
+
+	Phase 5 – USN Journal (Méthode Semi automatique)
 	Cette méthode est utilisée afin d'identifier des exécutables / scripts / logs supprimés ou renommés, même si le joueur tente de nettoyer ses traces.
 	⚠️ Le USN Journal ne prouve PAS l'injection mémoire, mais il prouve des actions disque (création, renommage, suppression, troncature).
 
@@ -541,7 +541,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* USN Journal ID		→ 	Identifiant unique du journal
 		⚠️ Si "USN Journal is disabled"	Le journal n'existe pas
 			⚠️Suspect si désactivé manuellement (possible nettoyage de traces) :
-				→ Passer directement à la Phase 5 - PREFETCH
+				→ Passer directement à la Phase 6 - PREFETCH
 			✅ Si actif :
 				→ Continuer ci-dessous
 
@@ -553,9 +553,9 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 		* Fichier créé : Bureau\VerifUSN\usn_suspects.txt
 			* Contient uniquement les événements suspects filtrés
 			* Affiche progression en temps réel
-		⚠️ Dans le cas ou la commande ne fonctionne pas il est possible de faire cette vérification manuellement voir la "Phase 4.5"
+		⚠️ Dans le cas ou la commande ne fonctionne pas il est possible de faire cette vérification manuellement voir la "Phase 5.1"
 		
-## Phase 4.5 USN JOURNAL (Méthode manuelle)
+## Phase 5.1 USN JOURNAL (Méthode manuelle)
 	Si besoin d'analyse personnalisée ou de conservation de l'export complet :
 		1. Créer le dossier de travail :
 			* Taper la commande (3 lignes) :
@@ -610,7 +610,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 		| 		`.tmp` renommé en `.dll` 			| 🟠 Élevé 			|			    Contournement de détection 			|
 		 -------------------------------------------------------------------------------------------------------------------						
 
-## Phase 4.6 - Activité des fichiers .jar / .exe / .bat / .dll
+## Phase 5.2 - Activité des fichiers .jar / .exe / .bat / .dll
 	Cette méthode permet d'isoler rapidement les créations, suppressions et renommages de fichiers exécutables ou chargeables souvent utilisés par les cheats Minecraft.
 	Elle s'appuie sur le USN Journal et doit être corrélée avec Prefetch, SRUM, Windows.db ou l'analyse mémoire.
 
@@ -695,18 +695,18 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 
 		⚠️ USN seul ne prouve PAS l'exécution.
 		⚠️ Pour conclure, corréler avec :
-			- Phase 5 - PREFETCH
-			- Phase 10 - SRUM
+			- Phase 6 - PREFETCH
+			- Phase 11 - SRUM
 			- Windows.db / Historique des Applications
 			- Analyse mémoire Javaw / System Informer
 
-    ____  __                       ______
-   / __ \/ /_  ____ _________     / ____/
-  / /_/ / __ \/ __ `/ ___/ _ \   /___ \  
- / ____/ / / / /_/ (__  )  __/  ____/ /  
-/_/   /_/ /_/\__,_/____/\___/  /_____/   
-                                         
-	Phase 5 – PREFETCH (preuve d’exécution)
+    ____  __                       _____
+   / __ \/ /_  ____ _________     / ___/
+  / /_/ / __ \/ __ `/ ___/ _ \   / __ \
+ / ____/ / / / /_/ (__  )  __/  / /_/ /
+/_/   /_/ /_/\__,_/____/\___/   \____/
+
+	Phase 6 – PREFETCH (preuve d’exécution)
 
 		Objectif :
 			* Prouver qu’un programme a été exécuté sur le système
@@ -783,7 +783,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				→ le programme a probablement été exécuté puis supprimé / déplacé
 
 		Étape 3 | Filtrage dans WinPrefetchView
-			* Rechercher les noms trouvés en Phase 4 / 4.6 :
+			* Rechercher les noms trouvés en Phase 5 / 5.2 :
 				- nom du .exe créé / supprimé dans USN
 				- nom du .bat suspect
 				- nom utilisé dans un hardlink / rename
@@ -845,9 +845,9 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* CMD / PowerShell / BAT proche d'une suppression USN
 				→ possible script de nettoyage
 			* RUNDLL32.EXE proche d'une .dll suspecte
-				→ vérifier Phase DLL / System32 / USN
+				→ vérifier Phase 14 / System32 / USN
 			* JAVA/JAVAW.EXE proche d'une création/suppression .jar
-				→ vérifier Phase 2 et Phase 4.6
+				→ vérifier Phase 2 et Phase 5.2
 			* Dossier Prefetch vide ou nettoyé récemment
 				→ red flag MAJEUR, passer à SRUM / Windows.db / BAM / Amcache
 				→ Voir ANNEXE 5.a
@@ -864,12 +864,12 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				→ Mémoire : traces ou injection active
 
     ____  __                       _____
-   / __ \/ /_  ____ _________     / ___/
-  / /_/ / __ \/ __ `/ ___/ _ \   / __ \ 
- / ____/ / / / /_/ (__  )  __/  / /_/ / 
-/_/   /_/ /_/\__,_/____/\___/   \____/  
-                                        
-	Phase 6 – AMCACHE (historique des exécutables)
+   / __ \/ /_  ____ _________     /__  /
+  / /_/ / __ \/ __ `/ ___/ _ \      / /
+ / ____/ / / / /_/ (__  )  __/     / /
+/_/   /_/ /_/\__,_/____/\___/     /_/
+
+	Phase 7 – AMCACHE (historique des exécutables)
 		Objectif :
 			* Retrouver des exécutables supprimés
 			* Identifier des fichiers .exe / .dll présents ou inventoriés par Windows
@@ -1033,10 +1033,10 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 
 		Étape 6 | Corrélation obligatoire
 			* Si Amcache trouve un exécutable suspect :
-				1. Chercher son nom dans Phase 5 - Prefetch
-				2. Chercher son nom / chemin dans Phase 4.6 - USN
-				3. Chercher son activité dans Phase 10 - SRUM
-				4. Chercher son utilisateur via Phase 7 - BAM
+				1. Chercher son nom dans Phase 6 - Prefetch
+				2. Chercher son nom / chemin dans Phase 5.2 - USN
+				3. Chercher son activité dans Phase 11 - SRUM
+				4. Chercher son utilisateur via Phase 8 - BAM
 				5. Chercher dans Windows.db si besoin
 
 			* Exemple de corrélation forte :
@@ -1063,13 +1063,13 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* Prefetch / BAM / SRUM prouvent mieux le QUAND et l'EXÉCUTION
 			* Ne jamais conclure sur Amcache seul
 
-    ____  __                       _____
-   / __ \/ /_  ____ _________     /__  /
-  / /_/ / __ \/ __ `/ ___/ _ \      / / 
- / ____/ / / / /_/ (__  )  __/     / /  
-/_/   /_/ /_/\__,_/____/\___/     /_/   
-                                        
-	Phase 7 – BAM (exécution par utilisateur)
+    ____  __                       ____
+   / __ \/ /_  ____ _________     ( __ )
+  / /_/ / __ \/ __ `/ ___/ _ \   / __  |
+ / ____/ / / / /_/ (__  )  __/  / /_/ /
+/_/   /_/ /_/\__,_/____/\___/   \____/
+
+	Phase 8 – BAM (exécution par utilisateur)
 		Objectif :
 			* Associer un exe à un utilisateur précis
 			* Retrouver le dernier lancement connu d'un programme
@@ -1174,7 +1174,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* Filtrer :
 				- User = utilisateur vérifié
 				- Path contient Users / AppData / Temp / Downloads / Desktop / OneDrive
-				- Path contient le nom suspect trouvé en Phase 4.6 / Phase 5 / Phase 6
+				- Path contient le nom suspect trouvé en Phase 5.2 / Phase 6 / Phase 7
 
 			* Comparer avec :
 				- heure de connexion serveur
@@ -1229,7 +1229,7 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* BAM montre cmd.exe / powershell.exe proche d'une suppression
 				→ possible script de nettoyage
 			* BAM montre javaw.exe proche d'une activité .jar
-				→ corréler Phase 2 / Phase 4.6 / Phase 5
+				→ corréler Phase 2 / Phase 5.2 / Phase 6
 			* BAM ne montre rien
 				→ ne pas conclure à l'absence de cheat
 
@@ -1249,13 +1249,13 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* SRUM répond mieux à ACTIF PENDANT MINECRAFT
 			* BAM seul = indice fort, mais corrélation obligatoire
 
-    ____  __                       ____ 
-   / __ \/ /_  ____ _________     ( __ )
-  / /_/ / __ \/ __ `/ ___/ _ \   / __  |
- / ____/ / / / /_/ (__  )  __/  / /_/ / 
-/_/   /_/ /_/\__,_/____/\___/   \____/  
-                                        
-	Phase 8 – NTUSER.DAT (activité utilisateur)
+    ____  __                       ____
+   / __ \/ /_  ____ _________     / __ \
+  / /_/ / __ \/ __ `/ ___/ _ \   / /_/ /
+ / ____/ / / / /_/ (__  )  __/   \__, /
+/_/   /_/ /_/\__,_/____/\___/   /____/
+
+	Phase 9 – NTUSER.DAT (activité utilisateur)
 		Objectif :
 			* Voir ce que l’utilisateur a ouvert / tapé
 			* Identifier des fichiers ouverts / sélectionnés par l'utilisateur
@@ -1428,13 +1428,13 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 				→ BAM associe au même utilisateur
 				→ SRUM place l'activité pendant Minecraft
 
-    ____  __                       ____ 
-   / __ \/ /_  ____ _________     / __ \
-  / /_/ / __ \/ __ `/ ___/ _ \   / /_/ /
- / ____/ / / / /_/ (__  )  __/   \__, / 
-/_/   /_/ /_/\__,_/____/\___/   /____/  
-                                        
-	Phase 9 – Windows.db (timeline utilisateur)
+    ____  __                       _______
+   / __ \/ /_  ____ _________     <  / __ \
+  / /_/ / __ \/ __ `/ ___/ _ \    / / / / /
+ / ____/ / / / /_/ (__  )  __/   / / /_/ /
+/_/   /_/ /_/\__,_/____/\___/   /_/\____/
+
+	Phase 10 – Windows.db (timeline utilisateur)
 		Objectif :
 			* Construire une timeline d’activité
 			* Identifier des fichiers visibles / indexés par Windows Search
@@ -1566,17 +1566,17 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 
 		Étape 8 | Corrélation
 			* Si Windows.db trouve un .exe suspect :
-				→ Phase 5 - Prefetch
-				→ Phase 6 - Amcache
-				→ Phase 7 - BAM
-				→ Phase 10 - SRUM
-				→ Phase 4.6 - USN
+				→ Phase 6 - Prefetch
+				→ Phase 7 - Amcache
+				→ Phase 8 - BAM
+				→ Phase 11 - SRUM
+				→ Phase 5.2 - USN
 
 			* Si Windows.db trouve un .jar suspect :
-				→ Phase 2 - Java / JNativeHook
-				→ Phase 4.6 - activité .jar
-				→ Phase 5 - JAVA/JAVAW Prefetch
-				→ Phase 10 - SRUM
+				→ Phase 3 - Java / JNativeHook
+				→ Phase 5.2 - activité .jar
+				→ Phase 6 - JAVA/JAVAW Prefetch
+				→ Phase 11 - SRUM
 
 			* Si Windows.db trouve une URL :
 				→ vérifier DNS / navigateur / téléchargements
@@ -1596,13 +1596,121 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* Windows.db ne prouve PAS l'injection ou le cheat seul
 			* La preuve vient de la corrélation avec Prefetch / BAM / SRUM / mémoire
 
-    ____  __                       _______ 
-   / __ \/ /_  ____ _________     <  / __ \
-  / /_/ / __ \/ __ `/ ___/ _ \    / / / / /
- / ____/ / / / /_/ (__  )  __/   / / /_/ / 
-/_/   /_/ /_/\__,_/____/\___/   /_/\____/  
-                                           
-	Phase 10 – SRUM (corrélation temporelle)
+
+## Phase 10.1 – Windows.db : Analyse Forensique Avancée (Windows Search)
+
+	Cette méthode est utilisée afin d’identifier des exécutables, loaders, scripts ou outils annexes, même supprimés par le joueur, et de construire une timeline d’activité.
+	⚠️ Cette méthode ne constitue PAS une preuve directe de cheat ou d’injection, elle sert à orienter les vérifications avancées.
+
+	Objectif de la méthode Windows.db
+		* Détecter des exécutables suspects renommés (Vape, Autoclicker, Loader…)
+		* Identifier des fichiers supprimés après utilisation
+		* Repérer des scripts PowerShell, URL de payload, outils de bypass
+		* Corréler une activité suspecte avec une session Minecraft
+		* Orienter les contrôles SRUM, Prefetch et Mémoire
+
+	Outils requis
+		* Windows Database Parser (Detect.ac ou équivalent) ou WxTCmd.zip
+		* Timeline Explorer
+		* Accès au fichier :
+			C:\ProgramData\Microsoft\Search\Data\Applications\Windows\Windows.db
+
+		Étape 1 – Extraction de Windows.db
+			* Extraire le fichier Windows.db
+			* Parser la base en format CSV
+			* Ouvrir le CSV dans Timeline Explorer
+			* Désactiver :
+				- Redimensionnement automatique des colonnes
+				- Rafraîchissement automatique
+			* Masquer les colonnes inutiles :
+				- Line
+				- ColumnId
+
+		Étape 2 – Compréhension des données (IMPORTANT)
+			* Chaque information est fragmentée en plusieurs lignes
+			* Une entité réelle = plusieurs lignes avec le même Work Id
+
+				Work Id  → Objet réel (fichier, script, URL)
+				Tag      → Type de donnée
+				Value    → Valeur brute
+
+			⚠️ Ne jamais analyser ligne par ligne
+			⚠️ Toujours regrouper par Work Id
+
+		Étape 3 – Filtrage initial (réduction massive)
+			* Appliquer le filtre suivant sur la colonne Value :
+
+				https://gist.github.com/youpl/50fa94e0aba33dc2e2e7c4ad79ec0652
+
+		Étape 4 – Focus utilisateur (recommandé)
+			* Ajouter le filtre suivant :
+
+				AND (
+					Contains([Value], 'C:\Users\')
+					OR Contains([Value], 'C:\Utilisateurs\')
+				)
+
+			Cette étape permet d’ignorer totalement les fichiers système.
+
+		Étape 5 – Regroupement logique
+			* Cliquer sur la colonne Work Id
+			* Appliquer : Group By → Work Id
+
+			Chaque groupe correspond à :
+				- Un exécutable
+				- Un loader
+				- Un script
+				- Une URL associée
+
+		Étape 6 – Corrélation temporelle
+			* Convertir les timestamps FILETIME en date lisible
+			* Comparer avec :
+				- Heure de connexion au serveur
+				- Heure de lancement de Minecraft
+
+			⚠️ Un fichier suspect actif pendant la session = signal critique
+
+	Indicateurs de suspicion Windows.db
+		* Exécutable au nom aléatoire (ex: 55709891.exe)
+		* Fichier situé sur Bureau / OneDrive / Temp
+		* Absence d’éditeur ou de version
+		* Présence de scripts PowerShell (.ps1)
+		* URL GitHub / Pastebin / Raw
+		* Activité durant la session de jeu
+
+	→ Windows.db seul = suspicion, PAS condamnation
+
+		Ce que Windows.db ne permet PAS de prouver
+			* Injection dans javaw.exe
+			* Hooks mémoire
+			* Cheats fileless
+			* DMA
+			* Strings chargées en mémoire
+
+	→ Ces preuves doivent être recherchées via :
+		- SRUM (CPU / Réseau)
+		- Prefetch
+		- Analyse mémoire (System Informer)
+		- EventLogs / PowerShell
+
+	Suite logique après Windows.db
+	Dans le cas où un fichier suspect est identifié :
+
+		1. Vérifier les Prefetch
+		2. Vérifier la corrélation SRUM
+		3. Analyser la mémoire de javaw.exe
+		4. Vérifier les EventLogs et PowerShell
+
+	Règle d’or
+		Windows.db indique QUOI chercher,
+		mais jamais QUOI conclure.
+    ____  __                       ______
+   / __ \/ /_  ____ _________     <  <  /
+  / /_/ / __ \/ __ `/ ___/ _ \    / // /
+ / ____/ / / / /_/ (__  )  __/   / // /
+/_/   /_/ /_/\__,_/____/\___/   /_//_/
+
+	Phase 11 – SRUM (corrélation temporelle)
 		Objectif :
 			* Vérifier si un loader / cheat a été actif EN MÊME TEMPS que Minecraft
 			* Corréler un exécutable suspect avec javaw.exe
@@ -1759,13 +1867,145 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* SRUM est très fort pour lier un loader à une session Minecraft
 			* SRUM + Prefetch + BAM + Windows.db = corrélation solide
 
+
+## Phase 11.1 – SRUM : Vérification de Corrélation (CPU / Réseau)
+
+	Cette méthode permet de lier temporellement un loader / cheat à Minecraft (javaw.exe) en analysant l’utilisation des ressources système.
+	⚠️ SRUM ne montre PAS l’injection, mais prouve que deux programmes ont été actifs au même moment, ce qui constitue une preuve forensique forte.
+
+	Objectif de la méthode SRUM
+		* Vérifier si un loader/cheat a été actif en même temps que Minecraft
+		* Corréler un exécutable suspect trouvé via Windows.db
+		* Confirmer une activité pendant la session de jeu
+		* Fournir une preuve temporelle exploitable en vérification
+
+	Outils requis
+		* SrumECmd (Eric Zimmerman)
+		* Timeline Explorer
+		* Accès au fichier :
+			C:\Windows\System32\sru\SRUDB.dat
+
+	Étape 1 – Extraction de la base SRUM
+		* Copier le fichier suivant :
+			C:\Windows\System32\sru\SRUDB.dat
+
+		* Placer SrumECmd.exe dans un dossier dédié
+
+		* Windows + X → Terminal / PowerShell (Administrateur)
+
+		* Se placer dans le dossier contenant SrumECmd :
+			cd C:\Chemin\Vers\SrumECmd
+
+		* Lancer la commande suivante :
+			SrumECmd.exe -f C:\Windows\System32\sru\SRUDB.dat --csv
+
+		* Attendre la fin du parsing
+
+		→ Plusieurs fichiers CSV sont générés automatiquement
+
+	Étape 2 – Fichiers à analyser (IMPORTANT)
+		Ouvrir UNIQUEMENT les fichiers suivants dans Timeline Explorer :
+
+			* AppResourceUseInfo.csv   → Utilisation CPU
+			* NetworkUsages.csv        → Activité réseau
+
+		Les autres fichiers SRUM ne sont pas nécessaires dans un contexte anti-cheat.
+
+	Étape 3 – Filtrage des processus
+		Dans AppResourceUseInfo.csv :
+
+			* Filtrer la colonne ExecutableName avec :
+				javaw.exe
+
+			* Ajouter le nom de l’exécutable suspect identifié précédemment :
+				exemple : 55709891.exe
+
+			* Vérifier que les deux processus apparaissent dans la timeline
+
+	Étape 4 – Colonnes importantes à interpréter
+		Dans AppResourceUseInfo.csv :
+
+			* Timestamp        → Heure exacte de l’activité
+			* ExecutableName   → Nom du processus
+			* UserId           → Utilisateur
+			* CpuTimeMS        → Temps CPU consommé
+			* EnergyUsage      → Indicateur d’activité globale
+
+		⚠️ Un CpuTime faible est NORMAL pour un loader  
+		⚠️ L’important est la présence temporelle, pas l’intensité
+
+	Étape 5 – Vérification de la corrélation temporelle
+		Une corrélation est considérée comme VALIDE si :
+
+			* javaw.exe et le loader apparaissent
+			* dans la même tranche de temps
+			* avec un écart de ± 1 à 5 minutes
+			* pendant ou juste avant la session de jeu
+
+		Exemple de corrélation valide
+		18:32 → javaw.exe        → activité CPU
+		18:33 → 55709891.exe     → activité CPU
+		18:35 → javaw.exe        → activité CPU
+
+		➡️ Corrélation temporelle confirmée
+
+		Exemple de corrélation NON valide
+		10:12 → 55709891.exe
+		18:42 → javaw.exe
+
+		➡️ Aucune corrélation exploitable
+
+	Étape 6 – Corrélation réseau (optionnelle mais très forte)
+		Dans NetworkUsages.csv :
+
+			* Filtrer sur :
+				javaw.exe
+				55709891.exe
+
+			* Vérifier une activité réseau simultanée
+
+		Une activité réseau du loader pendant que javaw.exe est actif
+		renforce fortement la preuve.
+
+	Quand la corrélation SRUM est suffisante
+		La méthode SRUM est considérée comme suffisante si :
+
+			* Un loader ou exécutable suspect est identifié
+			* Une corrélation temporelle claire est présente
+			* L’activité se situe pendant la session de jeu
+
+	Dans ce cas, l’analyse mémoire n’est PAS obligatoire.
+
+	Erreurs fréquentes à éviter
+		* Chercher un pic CPU élevé
+		* Chercher le mot “vape” explicitement
+		* Ignorer un CpuTime faible
+		* Oublier le fuseau horaire
+		* Ne pas comparer avec l’heure de connexion serveur
+
+	Suite logique après SRUM
+		Si la corrélation est confirmée :
+
+			→ Preuve suffisante dans la majorité des cas
+
+		Si doute ou contestation :
+
+			* Analyse mémoire de javaw.exe (System Informer)
+			* Vérification Prefetch
+			* Vérification EventLogs / PowerShell
+
+	Règle d’or
+		SRUM prouve QUAND deux programmes ont été actifs,
+		pas COMMENT.
+
+		Le QUAND suffit souvent à établir le lien.                                           
     ____  __                       ______
-   / __ \/ /_  ____ _________     <  <  /
-  / /_/ / __ \/ __ `/ ___/ _ \    / // / 
- / ____/ / / / /_/ (__  )  __/   / // /  
-/_/   /_/ /_/\__,_/____/\___/   /_//_/   
-                                         
-	Phase 11 – EventLogs (support)
+   / __ \/ /_  ____ _________     <  /__ \
+  / /_/ / __ \/ __ `/ ___/ _ \    / /__/ /
+ / ____/ / / / /_/ (__  )  __/   / // __/
+/_/   /_/ /_/\__,_/____/\___/   /_//____/
+
+	Phase 12 – EventLogs (support)
 		Objectif :
 			* Appuyer la timeline avec les journaux Windows
 			* Rechercher crashs, erreurs, élévations et traces PowerShell
@@ -1952,9 +2192,9 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 
 		Étape 7 | Corrélation
 			* Si EventLogs montrent PowerShell proche de Minecraft :
-				→ vérifier Phase 4.6 USN pour .ps1 / .bat / .exe
-				→ vérifier Phase 9 Windows.db pour URL / payload
-				→ vérifier Phase 10 SRUM pour activité simultanée
+				→ vérifier Phase 5.2 USN pour .ps1 / .bat / .exe
+				→ vérifier Phase 10 Windows.db pour URL / payload
+				→ vérifier Phase 11 SRUM pour activité simultanée
 
 			* Si EventLogs montrent un service installé :
 				→ vérifier chemin du service
@@ -1974,13 +2214,13 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* Le log clearing est un red flag majeur
 			* EventLogs + SRUM + Prefetch permettent une timeline solide
 
-    ____  __                       ______ 
-   / __ \/ /_  ____ _________     <  /__ \
-  / /_/ / __ \/ __ `/ ___/ _ \    / /__/ /
- / ____/ / / / /_/ (__  )  __/   / // __/ 
-/_/   /_/ /_/\__,_/____/\___/   /_//____/ 
-                                          
-	Phase 12 – MFT (preuve ultime)
+    ____  __                       ________
+   / __ \/ /_  ____ _________     <  /__  /
+  / /_/ / __ \/ __ `/ ___/ _ \    / / /_ <
+ / ____/ / / / /_/ (__  )  __/   / /___/ /
+/_/   /_/ /_/\__,_/____/\___/   /_//____/
+
+	Phase 13 – MFT (preuve ultime)
 		Objectif :
 			* Retrouver les traces fichiers les plus persistantes
 			* Identifier des fichiers supprimés, renommés ou déplacés
@@ -2154,272 +2394,71 @@ Si malgré une consultation annexe vous ne pouvez résoudre le problème Merci d
 			* MFT est très utile si le fichier a été supprimé
 			* Utiliser la MFT en dernier recours ou pour confirmer une timeline forte
 
-    ____  __                       ________
-   / __ \/ /_  ____ _________     <  /__  /
-  / /_/ / __ \/ __ `/ ___/ _ \    / / /_ < 
- / ____/ / / / /_/ (__  )  __/   / /___/ / 
-/_/   /_/ /_/\__,_/____/\___/   /_//____/  
-# Analyse Forensique Avancée – Windows.db (Windows Search)
-
-	Cette méthode est utilisée afin d’identifier des exécutables, loaders, scripts ou outils annexes, même supprimés par le joueur, et de construire une timeline d’activité.
-	⚠️ Cette méthode ne constitue PAS une preuve directe de cheat ou d’injection, elle sert à orienter les vérifications avancées.
-
-	Objectif de la méthode Windows.db
-		* Détecter des exécutables suspects renommés (Vape, Autoclicker, Loader…)
-		* Identifier des fichiers supprimés après utilisation
-		* Repérer des scripts PowerShell, URL de payload, outils de bypass
-		* Corréler une activité suspecte avec une session Minecraft
-		* Orienter les contrôles SRUM, Prefetch et Mémoire
-
-	Outils requis
-		* Windows Database Parser (Detect.ac ou équivalent) ou WxTCmd.zip
-		* Timeline Explorer
-		* Accès au fichier :
-			C:\ProgramData\Microsoft\Search\Data\Applications\Windows\Windows.db
-
-		Étape 1 – Extraction de Windows.db
-			* Extraire le fichier Windows.db
-			* Parser la base en format CSV
-			* Ouvrir le CSV dans Timeline Explorer
-			* Désactiver :
-				- Redimensionnement automatique des colonnes
-				- Rafraîchissement automatique
-			* Masquer les colonnes inutiles :
-				- Line
-				- ColumnId
-
-		Étape 2 – Compréhension des données (IMPORTANT)
-			* Chaque information est fragmentée en plusieurs lignes
-			* Une entité réelle = plusieurs lignes avec le même Work Id
-
-				Work Id  → Objet réel (fichier, script, URL)
-				Tag      → Type de donnée
-				Value    → Valeur brute
-
-			⚠️ Ne jamais analyser ligne par ligne
-			⚠️ Toujours regrouper par Work Id
-
-		Étape 3 – Filtrage initial (réduction massive)
-			* Appliquer le filtre suivant sur la colonne Value :
-
-				https://gist.github.com/youpl/50fa94e0aba33dc2e2e7c4ad79ec0652
-
-		Étape 4 – Focus utilisateur (recommandé)
-			* Ajouter le filtre suivant :
-
-				AND (
-					Contains([Value], 'C:\Users\')
-					OR Contains([Value], 'C:\Utilisateurs\')
-				)
-
-			Cette étape permet d’ignorer totalement les fichiers système.
-
-		Étape 5 – Regroupement logique
-			* Cliquer sur la colonne Work Id
-			* Appliquer : Group By → Work Id
-
-			Chaque groupe correspond à :
-				- Un exécutable
-				- Un loader
-				- Un script
-				- Une URL associée
-
-		Étape 6 – Corrélation temporelle
-			* Convertir les timestamps FILETIME en date lisible
-			* Comparer avec :
-				- Heure de connexion au serveur
-				- Heure de lancement de Minecraft
-
-			⚠️ Un fichier suspect actif pendant la session = signal critique
-
-	Indicateurs de suspicion Windows.db
-		* Exécutable au nom aléatoire (ex: 55709891.exe)
-		* Fichier situé sur Bureau / OneDrive / Temp
-		* Absence d’éditeur ou de version
-		* Présence de scripts PowerShell (.ps1)
-		* URL GitHub / Pastebin / Raw
-		* Activité durant la session de jeu
-
-	→ Windows.db seul = suspicion, PAS condamnation
-
-		Ce que Windows.db ne permet PAS de prouver
-			* Injection dans javaw.exe
-			* Hooks mémoire
-			* Cheats fileless
-			* DMA
-			* Strings chargées en mémoire
-
-	→ Ces preuves doivent être recherchées via :
-		- SRUM (CPU / Réseau)
-		- Prefetch
-		- Analyse mémoire (System Informer)
-		- EventLogs / PowerShell
-
-	Suite logique après Windows.db
-	Dans le cas où un fichier suspect est identifié :
-
-		1. Vérifier les Prefetch
-		2. Vérifier la corrélation SRUM
-		3. Analyser la mémoire de javaw.exe
-		4. Vérifier les EventLogs et PowerShell
-
-	Règle d’or
-		Windows.db indique QUOI chercher,
-		mais jamais QUOI conclure.
     ____  __                       _____ __
    / __ \/ /_  ____ _________     <  / // /
   / /_/ / __ \/ __ `/ ___/ _ \    / / // /_
  / ____/ / / / /_/ (__  )  __/   / /__  __/
-/_/   /_/ /_/\__,_/____/\___/   /_/  /_/   
- ## Vérification de Corrélation SRUM (CPU / Réseau)
+/_/   /_/ /_/\__,_/____/\___/   /_/  /_/
 
-	Cette méthode permet de lier temporellement un loader / cheat à Minecraft (javaw.exe) en analysant l’utilisation des ressources système.
-	⚠️ SRUM ne montre PAS l’injection, mais prouve que deux programmes ont été actifs au même moment, ce qui constitue une preuve forensique forte.
+	Phase 14 – Recherche de fichier .dll
+	Etape 1 :
+		* Windows + R 
+		* Tapez la commande : appwiz.cpl
+		* Rechercher des fichiers suspect
+	Etape 2 :
+		* Windows + X -> Terminal/Powershell (Administrateur)
+		* Tapez la commande : PECmd.exe -f "c:\Windows\Prefetch\(rundll32.pf-<id>)
+		
+		
 
-	Objectif de la méthode SRUM
-		* Vérifier si un loader/cheat a été actif en même temps que Minecraft
-		* Corréler un exécutable suspect trouvé via Windows.db
-		* Confirmer une activité pendant la session de jeu
-		* Fournir une preuve temporelle exploitable en vérification
 
-	Outils requis
-		* SrumECmd (Eric Zimmerman)
-		* Timeline Explorer
-		* Accès au fichier :
-			C:\Windows\System32\sru\SRUDB.dat
 
-	Étape 1 – Extraction de la base SRUM
-		* Copier le fichier suivant :
-			C:\Windows\System32\sru\SRUDB.dat
 
-		* Placer SrumECmd.exe dans un dossier dédié
-
-		* Windows + X → Terminal / PowerShell (Administrateur)
-
-		* Se placer dans le dossier contenant SrumECmd :
-			cd C:\Chemin\Vers\SrumECmd
-
-		* Lancer la commande suivante :
-			SrumECmd.exe -f C:\Windows\System32\sru\SRUDB.dat --csv
-
-		* Attendre la fin du parsing
-
-		→ Plusieurs fichiers CSV sont générés automatiquement
-
-	Étape 2 – Fichiers à analyser (IMPORTANT)
-		Ouvrir UNIQUEMENT les fichiers suivants dans Timeline Explorer :
-
-			* AppResourceUseInfo.csv   → Utilisation CPU
-			* NetworkUsages.csv        → Activité réseau
-
-		Les autres fichiers SRUM ne sont pas nécessaires dans un contexte anti-cheat.
-
-	Étape 3 – Filtrage des processus
-		Dans AppResourceUseInfo.csv :
-
-			* Filtrer la colonne ExecutableName avec :
-				javaw.exe
-
-			* Ajouter le nom de l’exécutable suspect identifié précédemment :
-				exemple : 55709891.exe
-
-			* Vérifier que les deux processus apparaissent dans la timeline
-
-	Étape 4 – Colonnes importantes à interpréter
-		Dans AppResourceUseInfo.csv :
-
-			* Timestamp        → Heure exacte de l’activité
-			* ExecutableName   → Nom du processus
-			* UserId           → Utilisateur
-			* CpuTimeMS        → Temps CPU consommé
-			* EnergyUsage      → Indicateur d’activité globale
-
-		⚠️ Un CpuTime faible est NORMAL pour un loader  
-		⚠️ L’important est la présence temporelle, pas l’intensité
-
-	Étape 5 – Vérification de la corrélation temporelle
-		Une corrélation est considérée comme VALIDE si :
-
-			* javaw.exe et le loader apparaissent
-			* dans la même tranche de temps
-			* avec un écart de ± 1 à 5 minutes
-			* pendant ou juste avant la session de jeu
-
-		Exemple de corrélation valide
-		18:32 → javaw.exe        → activité CPU
-		18:33 → 55709891.exe     → activité CPU
-		18:35 → javaw.exe        → activité CPU
-
-		➡️ Corrélation temporelle confirmée
-
-		Exemple de corrélation NON valide
-		10:12 → 55709891.exe
-		18:42 → javaw.exe
-
-		➡️ Aucune corrélation exploitable
-
-	Étape 6 – Corrélation réseau (optionnelle mais très forte)
-		Dans NetworkUsages.csv :
-
-			* Filtrer sur :
-				javaw.exe
-				55709891.exe
-
-			* Vérifier une activité réseau simultanée
-
-		Une activité réseau du loader pendant que javaw.exe est actif
-		renforce fortement la preuve.
-
-	Quand la corrélation SRUM est suffisante
-		La méthode SRUM est considérée comme suffisante si :
-
-			* Un loader ou exécutable suspect est identifié
-			* Une corrélation temporelle claire est présente
-			* L’activité se situe pendant la session de jeu
-
-	Dans ce cas, l’analyse mémoire n’est PAS obligatoire.
-
-	Erreurs fréquentes à éviter
-		* Chercher un pic CPU élevé
-		* Chercher le mot “vape” explicitement
-		* Ignorer un CpuTime faible
-		* Oublier le fuseau horaire
-		* Ne pas comparer avec l’heure de connexion serveur
-
-	Suite logique après SRUM
-		Si la corrélation est confirmée :
-
-			→ Preuve suffisante dans la majorité des cas
-
-		Si doute ou contestation :
-
-			* Analyse mémoire de javaw.exe (System Informer)
-			* Vérification Prefetch
-			* Vérification EventLogs / PowerShell
-
-	Règle d’or
-		SRUM prouve QUAND deux programmes ont été actifs,
-		pas COMMENT.
-
-		Le QUAND suffit souvent à établir le lien.                                           
     ____  __                       _________
    / __ \/ /_  ____ _________     <  / ____/
-  / /_/ / __ \/ __ `/ ___/ _ \    / /___ \  
- / ____/ / / / /_/ (__  )  __/   / /___/ /  
-/_/   /_/ /_/\__,_/____/\___/   /_/_____/   
-                                 
+  / /_/ / __ \/ __ `/ ___/ _ \    / /___ \
+ / ____/ / / / /_/ (__  )  __/   / /___/ /
+/_/   /_/ /_/\__,_/____/\___/   /_/_____/
+
+	Phase 15 – Historique des Applications
+	* Windows + R 
+	* Tapez la commande : C:\Users\%USERNAME%\AppData\Local\Microsoft\Windows\History.
+	* Cliquez sur "Aujourd'hui" -> Ce PC 
+	* Ici retrouver tout les fichiers qui ont été déplacés, édités et/ou ouverts à la date sélectionnez
+	* Réïtérez avec le jour précédent au cas ou le pc n'a pas été redémarrer depuis. 
+	
+	Méthode alternative : RecentFilesView (NirSoft)
+Si l'historique Windows est vide ou nettoyé :
+1. Télécharger RecentFilesView
+
+Lien : https://www.nirsoft.net/utils/recentfilesview.zip
+
+2. Lancer RecentFilesView.exe
+3. Analyser les colonnes :
+
+Filename → Nom du fichier
+Folder → Emplacement
+Modified Time → Date de dernière modification
+File Extension → Type de fichier
+
+4. Filtrer par extension
+
+Options → Advanced Filter → Extension
+Taper : exe;jar;dll;bat;ps1;ahk
+
+5. Trier par date décroissante
+
+Cliquer sur Modified Time
+
+➡️ Affiche tous les fichiers récents même si l'historique Windows est nettoyé
+
     ____  __                       ________
    / __ \/ /_  ____ _________     <  / ___/
-  / /_/ / __ \/ __ `/ ___/ _ \    / / __ \ 
- / ____/ / / / /_/ (__  )  __/   / / /_/ / 
-/_/   /_/ /_/\__,_/____/\___/   /_/\____/  
-                                           								 
-    ____  __                       ________
-   / __ \/ /_  ____ _________     <  /__  /
-  / /_/ / __ \/ __ `/ ___/ _ \    / /  / / 
- / ____/ / / / /_/ (__  )  __/   / /  / /  
-/_/   /_/ /_/\__,_/____/\___/   /_/  /_/   
-Phase 17 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
+  / /_/ / __ \/ __ `/ ___/ _ \    / / __ \
+ / ____/ / / / /_/ (__  )  __/   / / /_/ /
+/_/   /_/ /_/\__,_/____/\___/   /_/\____/
+
+Phase 16 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
 
 		Objectif :
 			* Détecter un bypass exécutant CMD en tant que « package » pour masquer un cheat
@@ -2438,7 +2477,7 @@ Phase 17 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
 
 			* L'ouverture de CMD en « package » nécessite Microsoft.WindowsTerminal
 			* Cette opération laisse une trace WindowsTerminal dans BAM, avec l'heure exacte
-			* Consultation : → Voir Phase 7 – BAM (consulter via Regedit ou WinLiveInfo)
+			* Consultation : → Voir Phase 8 – BAM (consulter via Regedit ou WinLiveInfo)
 			
 			⚠️ Interprétation prudente :
 				- Une entrée WindowsTerminal seule N'EST PAS une preuve
@@ -2454,7 +2493,7 @@ Phase 17 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
 			* Un dump du Kernel peut parfois contenir une partie (voire la totalité) de la commande utilisée :
 				- la commande d'ouverture de CMD en package
 				- la commande exécutée à l'intérieur du CMD
-			* Procédure : → Voir Phase 12 – MFT (section Analyse mémoire Kernel)
+			* Procédure : → Voir Phase 13 – MFT (section Analyse mémoire Kernel)
 			
 			⚠️ Souvent rien n'est présent : l'absence de trace ne disculpe pas, mais une trace est un indice fort.
 			
@@ -2492,7 +2531,7 @@ Phase 17 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
 
 			* La méthode laisse souvent un événement de type « Data Truncation » dans le journal
 			* C'est un indice de modification de fichier, cohérent avec un remplacement
-			* Procédure : → Voir Phase 11 – EventLogs (consulter le journal système)
+			* Procédure : → Voir Phase 12 – EventLogs (consulter le journal système)
 			
 			⚠️ Un Data Truncation NE prouve PAS à lui seul un remplacement → toujours croiser
 			* Bonne pratique : comparer l'heure du Data Truncation avec l'heure de l'exécution suspecte.
@@ -2507,20 +2546,19 @@ Phase 17 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
 			* La preuve = corrélation temporelle entre plusieurs indicateurs
 			  (BAM + DPS + conhost + Data Truncation à la même heure)
 			* Toujours corréler avec :
-				- → Phase 5 (Prefetch)
-				- → Phase 7 (BAM)
-				- → Phase 10 (SRUM)
-				- → Phase 12 (MFT)
-				- → Phase 11 (EventLogs)
+				- → Phase 6 (Prefetch)
+				- → Phase 8 (BAM)
+				- → Phase 11 (SRUM)
+				- → Phase 13 (MFT)
+				- → Phase 12 (EventLogs)
 
-    ____  __                       _______ 
-   / __ \/ /_  ____ _________     <  / __ \
-  / /_/ / __ \/ __ `/ ___/ _ \    / / /_/ /
- / ____/ / / / /_/ (__  )  __/   / /\__, / 
-/_/   /_/ /_/\__,_/____/\___/   /_//____/  
+    ____  __                       ________
+   / __ \/ /_  ____ _________     <  /__  /
+  / /_/ / __ \/ __ `/ ___/ _ \    / /  / /
+ / ____/ / / / /_/ (__  )  __/   / /  / /
+/_/   /_/ /_/\__,_/____/\___/   /_/  /_/
 
-
-	Phase 18 – PE Injection (Portable Executable en mémoire) – DÉTECTION
+	Phase 17 – PE Injection (Portable Executable en mémoire) – DÉTECTION
 
 		Objectif :
 			* Détecter le chargement d'un PE (Portable Executable .exe ou .dll) en mémoire
@@ -2597,15 +2635,15 @@ Phase 17 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
 
 			* L'injecteur lui-même doit être exécuté AVANT l'injection
 			* Procédure :
-				- → Voir Phase 4 – USN Journal (chercher la création du fichier injecteur)
-				- → Voir Phase 5 – Prefetch (chercher l'exécution de l'injecteur)
+				- → Voir Phase 5 – USN Journal (chercher la création du fichier injecteur)
+				- → Voir Phase 6 – Prefetch (chercher l'exécution de l'injecteur)
 			* Chercher un fichier récemment créé ou supprimé portant un nom banal ou aléatoire
 
 		────────────────────────────────────────────
 		Indicateur 6 | SRUM – corrélation temporelle avec le conteneur
 
 			* Vérifier que l'injecteur et le conteneur ont été actifs au même moment
-			* Procédure : → Voir Phase 10 – SRUM (analyser l'activité CPU / réseau)
+			* Procédure : → Voir Phase 11 – SRUM (analyser l'activité CPU / réseau)
 			* Chercher :
 				- injecteur + conteneur (javaw.exe) actifs simultanément
 				- un pic anormal d'activité pendant que Minecraft était en cours
@@ -2622,13 +2660,13 @@ Phase 17 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
 			
 			* Une preuve solide = injecteur trouvé + conteneur identifié + signatures en mémoire + corrélation horaire
 
-    ____  __                       ___   |___  
-   / __ \/ /_  ____ _________     |__ \ / __ \
-  / /_/ / __ \/ __ `/ ___/ _ \    __/ // /  / 
- / ____/ / / / /_/ (__  )  __/   / __// /__/  
-/_/   /_/ /_/\__,_/____/\___/   /____/\____/  
-                                              
-Phase 19 – HARDLINKS – Concepts et Détection
+    ____  __                       _______
+   / __ \/ /_  ____ _________     <  ( __ )
+  / /_/ / __ \/ __ `/ ___/ _ \    / / __  |
+ / ____/ / / / /_/ (__  )  __/   / / /_/ /
+/_/   /_/ /_/\__,_/____/\___/   /_/\____/
+
+Phase 18 – HARDLINKS – Concepts et Détection
 
 		Objectif :
 			* Comprendre le mécanisme des hardlinks
@@ -2663,7 +2701,7 @@ Phase 19 – HARDLINKS – Concepts et Détection
 				• Pour chaque fichier, le MFT stocke un champ « Reference Count » qui indique le nombre de liens associés
 
 			Procédure :
-				1. Utiliser MFTECmd pour parser le MFT → Voir Phase 12 – MFT (Tools Bible)
+				1. Utiliser MFTECmd pour parser le MFT → Voir Phase 13 – MFT (Tools Bible)
 				2. Examiner la colonne « Reference Count »
 				3. Analyser les résultats :
 					- Valeur normale = 1 (un seul fichier, aucun hardlink)
@@ -2715,7 +2753,7 @@ Phase 19 – HARDLINKS – Concepts et Détection
 				• C'est souvent la SEULE trace restante après un cleanup
 
 			Procédure :
-				→ Voir Phase 4 – USN Journal
+				→ Voir Phase 5 – USN Journal
 				• Chercher les entrées avec « Filename: » contenant un nom suspect créé juste avant le lancement de Minecraft
 				• Corréler les timestamps de création/suppression
 
@@ -2723,9 +2761,9 @@ Phase 19 – HARDLINKS – Concepts et Détection
 		Détection 4 – Cas spécifique Hardlink + Taskmgr / Conhost
 
 			Pour les bypass utilisant hardlinks avec Task Manager ou Conhost :
-				→ Voir Phase 20 – Bypass Hardlink / Taskmgr / Conhost (détection complète)
+				→ Voir Phase 19 – Bypass Hardlink / Taskmgr / Conhost (détection complète)
 			
-			Phase 20 couvre :
+			Phase 19 couvre :
 				• Analyse mémoire javaw.exe pour déceler les injections
 				• Vérification des tâches planifiées
 				• Recherche de DLLs suspectes en System32
@@ -2746,7 +2784,7 @@ Phase 19 – HARDLINKS – Concepts et Détection
 				  - Analyse automatiquement le MFT pour rechercher des hardlinks créés après le démarrage du système
 				  - Filtre les hardlinks légitimes de Windows (fewer false positives)
 				  - Détecte les hardlinks existants ; ceux supprimés sont plus difficiles à retrouver
-				  - En cas de hardlink cassé (un des fichiers supprimé), consulter les méthodes de Phase 4 (USN)
+				  - En cas de hardlink cassé (un des fichiers supprimé), consulter les méthodes de Phase 5 (USN)
 
 		────────────────────────────────────────────
 		SYNTHÈSE DÉTECTION HARDLINKS
@@ -2755,19 +2793,19 @@ Phase 19 – HARDLINKS – Concepts et Détection
 				1. Analyser MFT avec Reference Count → détection automatique si le hardlink existe encore
 				2. Utiliser fsutil hardlink list sur les fichiers suspects → vérification rapide
 				3. Consulter USN Journal → retrouver traces de création/suppression même après suppression du fichier
-				4. Si Taskmgr/Conhost impliqués → appliquer Phase 20 en parallèle
+				4. Si Taskmgr/Conhost impliqués → appliquer Phase 19 en parallèle
 
 			Règle forensic :
 				• Aucun indicateur seul n'est concluant
 				• Une preuve solide = MFT Reference Count ≥ 2 + USN traces + corrélation temporelle avec Minecraft
 
-    ____  __                       ___   ____ 
-   / __ \/ /_  ____ _________     |__ \ / __ \
-  / /_/ / __ \/ __ `/ ___/ _ \    __/ // / / /
- / ____/ / / / /_/ (__  )  __/   / __// /_/ / 
-/_/   /_/ /_/\__,_/____/\___/   /____/\____/  
-                                              
-	Phase 20 – Bypass Hardlink / Taskmgr / Conhost
+    ____  __                       _______
+   / __ \/ /_  ____ _________     <  / __ \
+  / /_/ / __ \/ __ `/ ___/ _ \    / / /_/ /
+ / ____/ / / / /_/ (__  )  __/   / /\__, /
+/_/   /_/ /_/\__,_/____/\___/   /_//____/
+
+	Phase 19 – Bypass Hardlink / Taskmgr / Conhost
 		Objectif :
 			* Détecter une exécution contournée via hardlink temporaire
 			* Repérer une DLL suspecte cachée dans C:\Windows\System32
@@ -2911,7 +2949,7 @@ Phase 19 – HARDLINKS – Concepts et Détection
 
 			⚠️ fsutil USN n'affiche pas le chemin complet du fichier.
 			⚠️ Il affiche surtout Name + ParentRef.
-			⚠️ Pour retrouver le chemin complet, préférer JournalTrace ou corréler le Name / ParentRef avec Phase 12 - MFT / MFTECmd.
+			⚠️ Pour retrouver le chemin complet, préférer JournalTrace ou corréler le Name / ParentRef avec Phase 13 - MFT / MFTECmd.
 
 			* À relever :
 				- Reason : Hard Link Change
@@ -3088,273 +3126,13 @@ Phase 19 – HARDLINKS – Concepts et Détection
 
 					
 
-## Historique des Applications
-	* Windows + R 
-	* Tapez la commande : C:\Users\%USERNAME%\AppData\Local\Microsoft\Windows\History.
-	* Cliquez sur "Aujourd'hui" -> Ce PC 
-	* Ici retrouver tout les fichiers qui ont été déplacés, édités et/ou ouverts à la date sélectionnez
-	* Réïtérez avec le jour précédent au cas ou le pc n'a pas été redémarrer depuis. 
-	
-	Méthode alternative : RecentFilesView (NirSoft)
-Si l'historique Windows est vide ou nettoyé :
-1. Télécharger RecentFilesView
-
-Lien : https://www.nirsoft.net/utils/recentfilesview.zip
-
-2. Lancer RecentFilesView.exe
-3. Analyser les colonnes :
-
-Filename → Nom du fichier
-Folder → Emplacement
-Modified Time → Date de dernière modification
-File Extension → Type de fichier
-
-4. Filtrer par extension
-
-Options → Advanced Filter → Extension
-Taper : exe;jar;dll;bat;ps1;ahk
-
-5. Trier par date décroissante
-
-Cliquer sur Modified Time
-
-➡️ Affiche tous les fichiers récents même si l'historique Windows est nettoyé
-
-## Recherche de fichier .dll
-	Etape 1 :
-		* Windows + R 
-		* Tapez la commande : appwiz.cpl
-		* Rechercher des fichiers suspect
-	Etape 2 :
-		* Windows + X -> Terminal/Powershell (Administrateur)
-		* Tapez la commande : PECmd.exe -f "c:\Windows\Prefetch\(rundll32.pf-<id>)
-		
-		
-
-
-
-
-    ____  __                       ___   |___  
+    ____  __                       ___   ____
    / __ \/ /_  ____ _________     |__ \ / __ \
-  / /_/ / __ \/ __ `/ ___/ _ \    __/ // /  / 
- / ____/ / / / /_/ (__  )  __/   / __// /__/  
-/_/   /_/ /_/\__,_/____/\___/   /____/\____/  
-                                              
+  / /_/ / __ \/ __ `/ ___/ _ \    __/ // / / /
+ / ____/ / / / /_/ (__  )  __/   / __// /_/ /
+/_/   /_/ /_/\__,_/____/\___/   /____/\____/
 
-	Phase 21 – Bypass CMD « Package » (type Bruzen) – DÉTECTION
-
-		Objectif :
-			* Détecter un bypass exécutant CMD en tant que « package » pour masquer un cheat
-			* Repérer le remplacement (replace) d'un cheat par un programme légitime
-			* Corréler les traces avec l'heure de jeu / lancement Minecraft
-
-		Principe de la méthode (pour comprendre quoi chercher) :
-			* CMD est lancé sous forme de « package » via Microsoft.WindowsTerminal, avec privilèges administrateur
-			* Un fichier cheat est temporairement renommé / remplacé par le nom d'un programme légitime
-			* Une fois la vérification passée, le fichier original est restauré
-			* Résultat : la personne qui inspecte le fichier ne voit qu'un programme légitime
-			⚠️ Cette phase ne sert qu'à DÉTECTER la méthode, jamais à la reproduire.
-
-		────────────────────────────────────────────
-		Indicateur 1 | Traces dans BAM
-
-			* L'ouverture de CMD en « package » nécessite Microsoft.WindowsTerminal
-			* Cette opération laisse une trace WindowsTerminal dans BAM, avec l'heure exacte
-			* Consultation : → Voir Phase 7 – BAM (consulter via Regedit ou WinLiveInfo)
-			
-			⚠️ Interprétation prudente :
-				- Une entrée WindowsTerminal seule N'EST PAS une preuve
-				- Elle peut provenir d'une utilisation légitime du terminal
-				- Plus suspect uniquement si WindowsTerminal apparaît dès le démarrage du PC
-				  (Windows ne l'enregistre pas naturellement à cet instant)
-			
-			(Réf. image : https://imgur.com/a/5HHGHrK)
-
-		────────────────────────────────────────────
-		Indicateur 2 | Traces dans le Kernel
-
-			* Un dump du Kernel peut parfois contenir une partie (voire la totalité) de la commande utilisée :
-				- la commande d'ouverture de CMD en package
-				- la commande exécutée à l'intérieur du CMD
-			* Procédure : → Voir Phase 12 – MFT (section Analyse mémoire Kernel)
-			
-			⚠️ Souvent rien n'est présent : l'absence de trace ne disculpe pas, mais une trace est un indice fort.
-			
-			(Réf. image : https://imgur.com/a/oDtYsYX)
-
-		────────────────────────────────────────────
-		Indicateur 3 | Traces dans DPS
-
-			* Un dump DPS filtré sur « Microsoft.WindowsTerminal » peut révéler des traces de l'opération
-			* Aucun résultat = bon élément pour ÉCARTER ce bypass
-			* Si résultats présents, analyser attentivement :
-				- une entrée Microsoft.WindowsTerminal suivie d'un exécutable suspect
-				  → l'exécutable peut être le programme légitime servant à masquer le cheat
-				- la présence de conhost.exe
-				  → généralement lié au CMD exécuté en tant que package
-			
-			(Réf. image : https://imgur.com/a/k8nUcZ3)
-
-		────────────────────────────────────────────
-		Indicateur 4 | Traces dans DiagTrack / TextInputHost
-
-			* DiagTrack et des processus comme TextInputHost peuvent parfois contenir des fragments des commandes
-			* Mots-clés à rechercher :
-				- Microsoft.WindowsTerminal
-				- WindowsTerminal
-				- conhost
-			
-			⚠️ Aide LIMITÉE : ces informations disparaissent très vite et n'apportent souvent rien.
-			   Mais quand ça fonctionne, c'est une preuve complémentaire intéressante.
-			
-			(Réf. image : https://imgur.com/a/FVsHrRj)
-
-		────────────────────────────────────────────
-		Indicateur 5 | Data Truncation dans le Journal système
-
-			* La méthode laisse souvent un événement de type « Data Truncation » dans le journal
-			* C'est un indice de modification de fichier, cohérent avec un remplacement
-			* Procédure : → Voir Phase 11 – EventLogs (consulter le journal système)
-			
-			⚠️ Un Data Truncation NE prouve PAS à lui seul un remplacement → toujours croiser
-			* Bonne pratique : comparer l'heure du Data Truncation avec l'heure de l'exécution suspecte.
-			  Le remplacement étant immédiat, les deux événements doivent coïncider.
-			
-			(Réf. image : https://imgur.com/a/Qucx7Wi)
-
-		────────────────────────────────────────────
-		SYNTHÈSE DÉTECTION
-
-			* Aucun indicateur ci-dessus n'est suffisant seul
-			* La preuve = corrélation temporelle entre plusieurs indicateurs
-			  (BAM + DPS + conhost + Data Truncation à la même heure)
-			* Toujours corréler avec :
-				- → Phase 5 (Prefetch)
-				- → Phase 7 (BAM)
-				- → Phase 10 (SRUM)
-				- → Phase 12 (MFT)
-				- → Phase 11 (EventLogs)
-
-
-    ____  __                       ___  ____   
-   / __ \/ /_  ____ _________     |__ \/  __ \ 
-  / /_/ / __ \/ __ `/ ___/ _ \    __/ / / /_/ /
- / ____/ / / / /_/ (__  )  __/   / __/ / ____/ 
-/_/   /_/ /_/\__,_/____/\___/   /____/ /_/     
-                                               
-
-	Phase 22 – PE Injection (Portable Executable en mémoire) – DÉTECTION
-
-		Objectif :
-			* Détecter le chargement d'un PE (Portable Executable .exe ou .dll) en mémoire
-			* Identifier un injecteur qui charge un cheat sans passer par le disque
-			* Retrouver les signatures ou imports de l'injecteur en mémoire
-			* Corréler l'injection avec les processus légitimes utilisant comme conteneur
-
-		Rappel technique – Concept de PE Injection :
-			* Au lieu d'exécuter un cheat via le chargeur standard de Windows (CreateProcess + LdrLoadDll),
-			  un injecteur fonctionne ainsi :
-				1. Crée ou ouvre un processus légitime
-				2. Réserve de la mémoire dans ce processus (VirtualAllocEx)
-				3. Écrit le PE en mémoire (WriteProcessMemory)
-				4. Modifie le contexte d'un thread ou en crée un nouveau (SetThreadContext / CreateRemoteThread)
-				5. Exécute le point d'entrée (Entry Point) du PE chargé manuellement
-			
-			⚠️ Il existe différentes méthodes de PE Injection ; elles ne fonctionnent pas toutes de cette manière.
-			* Résultat du bypass : dans les traces système (BAM, Prefetch, etc.), 
-			  ce n'est pas le cheat qui apparaît, mais le processus légitime utilisé comme conteneur.
-
-		────────────────────────────────────────────
-		Indicateur 1 | Retrouver l'injecteur via DIE (Detect It Easy)
-
-			* Un injecteur classique (non obfusqué) peut contenir certains imports visibles
-			* Outil requis : DIE (Detect It Easy) → Voir Tools Bible (ALL TOOLS SSA)
-			
-			Procédure :
-				1. Ouvrir DIE
-				2. Charger le fichier suspect (l'injecteur)
-				3. Examiner la section « Imports »
-				4. Chercher les imports typiques d'injection :
-					- VirtualAllocEx
-					- WriteProcessMemory
-					- CreateRemoteThread
-					- SetThreadContext
-					- ResumeThread
-			
-			* Exemple de signatures d'injecteur : https://pastebin.com/MCKsUuKh
-			* Tutoriel vidéo : https://www.youtube.com/watch?v=rY6-iBrct48 (Crédits : @shiya.py)
-
-		────────────────────────────────────────────
-		Indicateur 2 | Rechercher les signatures en mémoire RAM
-
-			* Un dump RAM peut contenir des fragments du PE injecté
-			* Procédure : → Voir Phase 2 – Mémoire & exécution ACTIVE (analyser avec FTK Imager et String64)
-			
-			* Mots-clés / signatures à rechercher :
-				- Messages d'erreur du cheat
-				- Chemins d'accès au cheat (%TEMP%, %APPDATA%, etc.)
-				- Noms de fonctions importées
-			
-			* Exemple de signatures caractéristiques : https://pastebin.com/VBRyBxEE (Crédits : @shiya.py)
-
-		────────────────────────────────────────────
-		Indicateur 3 | Traces dans KernelLiveDump
-
-			* Un dump Kernel live peut montrer l'injection en cours
-			* Procédure : → Voir Phase 2 (analyser avec System Informer pour récupérer le dump)
-			
-			⚠️ Peut contenir des fragments de commandes ou d'imports non vus en mémoire utilisateur
-
-		────────────────────────────────────────────
-		Indicateur 4 | Corréler avec les processus conteneur
-
-			* Identifier le processus légitime utilisé comme conteneur (javaw.exe, explorer.exe, svchost.exe, etc.)
-			* Procédure : → Voir Phase 2 – Mémoire (lister les processus actifs avec leurs DLLs chargées)
-			* Chercher des anomalies :
-				- Processus légitime avec DLLs non standard chargées (AppData, Temp, Downloads)
-				- Allocations mémoire inhabituellement grandes pour ce processus
-				- Threads créés de manière suspecte (CreateRemoteThread laisse des traces)
-
-		────────────────────────────────────────────
-		Indicateur 5 | Retrouver l'injecteur via trace USN / Prefetch
-
-			* L'injecteur lui-même doit être exécuté AVANT l'injection
-			* Procédure :
-				- → Voir Phase 4 – USN Journal (chercher la création du fichier injecteur)
-				- → Voir Phase 5 – Prefetch (chercher l'exécution de l'injecteur)
-			* Chercher un fichier récemment créé ou supprimé portant un nom banal ou aléatoire
-
-		────────────────────────────────────────────
-		Indicateur 6 | SRUM – corrélation temporelle avec le conteneur
-
-			* Vérifier que l'injecteur et le conteneur ont été actifs au même moment
-			* Procédure : → Voir Phase 10 – SRUM (analyser l'activité CPU / réseau)
-			* Chercher :
-				- injecteur + conteneur (javaw.exe) actifs simultanément
-				- un pic anormal d'activité pendant que Minecraft était en cours
-
-		────────────────────────────────────────────
-		SYNTHÈSE DÉTECTION PE Injection
-
-			* Aucune indicateur ci-dessus n'est concluant seul
-			* Approche forensic :
-				1. Chercher l'injecteur (DIE, USN, Prefetch)
-				2. Vérifier le conteneur (processus avec DLLs suspectes)
-				3. Corréler temporellement (SRUM, BAM, Prefetch)
-				4. Analyser la mémoire pour les signatures (RAM dump, Kernel dump)
-			
-			* Une preuve solide = injecteur trouvé + conteneur identifié + signatures en mémoire + corrélation horaire
-
-
-    ____  __                       ___  ____  
-   / __ \/ /_  ____ _________     |__ \|___ \ 
-  / /_/ / __ \/ __ `/ ___/ _ \    __/ / __) |
- / ____/ / / / /_/ (__  )  __/   / __/ / ___/ 
-/_/   /_/ /_/\__,_/____/\___/   /____//____/  
-                                              
-
-
-	Phase 23 – Analyse Netsh / Pare-feu Windows
+	Phase 20 – Analyse Netsh / Pare-feu Windows
 
 		Objectif :
 			* Détecter une utilisation anormale de netsh.exe
@@ -3454,7 +3232,7 @@ Cliquer sur Modified Time
 			* Si aucun résultat → élargir la fenêtre temporelle :
 				Remplacer AddDays(-7) par AddDays(-30)
 
-			⚠️ Si le journal est vide ou inaccessible → voir ANNEXE ou Phase 11 (EventLogs).
+			⚠️ Si le journal est vide ou inaccessible → voir ANNEXE ou Phase 12 (EventLogs).
 
 		────────────────────────────────────────────
 		Étape 5 | Historique PowerShell
@@ -3491,9 +3269,9 @@ Cliquer sur Modified Time
 				netsh advfirewall import "C:\Temp\backup.wfw"
 
 			* Chercher les fichiers .wfw également dans :
-				- RecentFiles (NTUSER.DAT)   → Phase 8
-				- JumpLists                  → Phase 8
-				- MFT ($MFT)                 → Phase 12
+				- RecentFiles (NTUSER.DAT)   → Phase 9
+				- JumpLists                  → Phase 9
+				- MFT ($MFT)                 → Phase 13
 
 		────────────────────────────────────────────
 		SYNTHÈSE – Corrélation avec le cheat
@@ -3513,11 +3291,11 @@ Cliquer sur Modified Time
 			→ Si cette séquence est observable : documenter chaque étape avec horodatages précis.
 
 			Corréler avec :
-				→ Phase 5  – Prefetch (NETSH.EXE exécution)
-				→ Phase 7  – BAM (horodatage netsh)
-				→ Phase 11 – EventLogs (IDs 2004 / 2005 / 2006 / 2033)
-				→ Phase 4 / 4.6 – USN Journal (fichiers .wfw)
-				→ Phase 12 – MFT (création / suppression de fichiers .wfw)
+				→ Phase 6  – Prefetch (NETSH.EXE exécution)
+				→ Phase 8  – BAM (horodatage netsh)
+				→ Phase 12 – EventLogs (IDs 2004 / 2005 / 2006 / 2033)
+				→ Phase 5 / 5.2 – USN Journal (fichiers .wfw)
+				→ Phase 13 – MFT (création / suppression de fichiers .wfw)
 
 			Indicateurs de suspicion ÉLEVÉS :
 				* Règle Block Outbound créée juste avant ou pendant Minecraft
@@ -3528,4 +3306,3 @@ Cliquer sur Modified Time
 			Indicateurs FAIBLES (seuls, sans contexte) :
 				* Présence seule de netsh.exe dans le Prefetch
 				* Règles Block standard créées par Windows, un VPN ou un pilote réseau
-
