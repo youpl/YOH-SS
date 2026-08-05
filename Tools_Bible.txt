@@ -1,0 +1,133 @@
+
+					   ________           ______           ___________________ ______     
+					   ___  __/______________  /_______    ___  __ )__(_)__  /____  /____ 
+					   __  /  _  __ \  __ \_  /__  ___/    __  __  |_  /__  __ \_  /_  _ \
+					   _  /   / /_/ / /_/ /  / _(__  )     _  /_/ /_  / _  /_/ /  / /  __/
+					   /_/    \____/\____//_/  /____/      /_____/ /_/  /_.___//_/  \___/ 
+                                                                                                                                                                                                      
+
+			* Pack SysInternals Complet : 			https://download.sysinternals.com/files/SysinternalsSuite.zip
+
+		→ Analyse Processus & Mémoire
+			* Process Hacker 2 : 					https://sourceforge.net/projects/processhacker/files/processhacker2/processhacker-2.39-setup.exe/download
+			* Process Hacker 3 (System Informer) : 	https://github.com/winsiderss/si-builds/releases/download/3.0.5553/systeminformer-3.0.5553-setup.exe
+			* Process Explorer (SysInternals) :		https://live.sysinternals.com/procexp.exe
+			* Process Explorer 64-bit : 			https://live.sysinternals.com/procexp64.exe
+			* Process Monitor (Procmon) : 			https://live.sysinternals.com/Procmon.exe
+			* Process Monitor 64-bit : 				https://live.sysinternals.com/Procmon64.exe
+			
+		→ Analyse Réseau
+			* TCPView : 							https://live.sysinternals.com/Tcpview.exe
+			* Wireshark : 							https://www.wireshark.org/download.html
+
+		→ Analyse Binaires & Fichiers
+			* Strings : 							https://live.sysinternals.com/strings.exe
+			* Strings 64-bit : 						https://live.sysinternals.com/strings64.exe
+			* PEStudio : 							https://www.winitor.com/download
+			* Detect It Easy (DIE) : 				https://github.com/horsicq/Detect-It-Easy/releases
+			* Sigcheck : 							https://live.sysinternals.com/sigcheck.exe
+			* Sigcheck 64-bit : 					https://live.sysinternals.com/sigcheck64.exe
+
+		→ Analyse Forensic Windows
+			* fsutil USN Journal (Windows natif) : 	Outil intégré Windows
+			* JournalTrace : 						https://github.com/ponei/JournalTrace/releases/download/1.0/JournalTrace.exe
+			* Timeline Explorer : 					https://download.ericzimmermanstools.com/net9/TimelineExplorer.zip
+			* AmcacheParser : 						https://download.ericzimmermanstools.com/net9/AmcacheParser.zip
+			* Registry Explorer : 					https://download.ericzimmermanstools.com/net9/RegistryExplorer.zip
+			* RECmd : 								https://download.ericzimmermanstools.com/net9/RECmd.zip
+			* Windows Database Parser : 			https://github.com/detect-ac/Windows-Sqlite-DB-Parser/releases/download/forensics/Windows.Sqlite.Database.Parser.exe
+			* SrumECmd : 							https://download.ericzimmermanstools.com/SrumECmd.zip
+			* EvtxECmd : 							https://download.ericzimmermanstools.com/net9/EvtxECmd.zip
+			* MFTECmd : 							https://download.ericzimmermanstools.com/net9/MFTECmd.zip
+			* PECmd (Prefetch) : 					https://download.ericzimmermanstools.com/net9/PECmd.zip
+			* WinPrefetchView : 					https://www.nirsoft.net/utils/trans/winprefetchview_french.zip
+
+		→ Analyse Activité Utilisateur
+			* LastActivityView : 					https://www.nirsoft.net/utils/lastactivityview.zip
+			* UserAssistView : 						https://www.nirsoft.net/utils/userassistview.zip
+			* RecentFilesView : 					https://www.nirsoft.net/utils/recentfilesview.zip
+			* ExecutedProgramList : 				https://www.nirsoft.net/utils/executedprogramslist.zip
+
+		→ Recherche & Exploration
+			* EveryThing : 							https://www.voidtools.com/Everything-1.4.1.1022.x86-Setup.exe
+
+		→ Persistence & AutoRun
+			* Autoruns : 							https://live.sysinternals.com/Autoruns.exe
+			* Autoruns 64-bit : 					https://live.sysinternals.com/Autoruns64.exe
+			* Autorunsc (version CLI) : 			https://live.sysinternals.com/autorunsc.exe
+			* Autorunsc 64-bit :					https://live.sysinternals.com/autorunsc64.exe
+
+		→ Handles & DLLs
+			* Handle : 								https://live.sysinternals.com/handle.exe
+			* Handle 64-bit : 						https://live.sysinternals.com/handle64.exe
+			* ListDLLs : 							https://live.sysinternals.com/Listdlls.exe
+			* ListDLLs 64-bit : 					https://live.sysinternals.com/Listdlls64.exe
+
+		→ Permissions & Sécurité
+			* AccessChk : 							https://live.sysinternals.com/accesschk.exe
+			* AccessChk 64-bit : 					https://live.sysinternals.com/accesschk64.exe
+			* AccessEnum : 							https://live.sysinternals.com/AccessEnum.exe
+
+		→ Drivers & Kernel
+			* DriverView : 							https://live.sysinternals.com/Driverview.exe
+
+		→ USB & Périphériques
+			* USB DEVIEW : 							https://www.nirsoft.net/utils/trans/usbdeview_french.zip
+
+		→ Dump Mémoire
+			* ProcDump : 							https://live.sysinternals.com/procdump.exe
+			* ProcDump 64-bit :	 					https://live.sysinternals.com/procdump64.exe
+			* VMMap : 								https://live.sysinternals.com/vmmap.exe
+			* RAMMap : 								https://live.sysinternals.com/RAMMap.exe
+
+
+		→ Décompilation & Reverse
+			* Ghidra : 								https://ghidra-sre.org/
+			* IDA Free : 							https://hex-rays.com/ida-free/
+
+		→ Logs & Événements
+			* PsLogList : 							https://live.sysinternals.com/psloglist.exe
+			* PsLogList 64-bit : 					https://live.sysinternals.com/psloglist64.exe
+			* Sysmon : 								https://live.sysinternals.com/Sysmon.exe
+			* Sysmon 64-bit : 						https://live.sysinternals.com/Sysmon64.exe
+
+		→ Réseau Avancé
+			* PsPing : 								https://live.sysinternals.com/psping.exe
+			* PsPing 64-bit : 						https://live.sysinternals.com/psping64.exe
+			* Whois : 								https://live.sysinternals.com/whois.exe
+			* Whois 64-bit : 						https://live.sysinternals.com/whois64.exe
+
+		→ Fichiers & Disque
+			* Streams (ADS) : 						https://live.sysinternals.com/streams.exe
+			* Streams 64-bit : 						https://live.sysinternals.com/streams64.exe
+			* DiskView : 							https://live.sysinternals.com/DiskView.exe
+			* SDelete : 							https://live.sysinternals.com/sdelete.exe
+			* SDelete 64-bit : 						https://live.sysinternals.com/sdelete64.exe
+
+		→ Registre
+			* RegJump :								https://live.sysinternals.com/regjump.exe
+
+		→ Services & Processus
+			* PsService : 							https://live.sysinternals.com/PsService.exe
+			* PsService 64-bit : 					https://live.sysinternals.com/PsService64.exe
+			* PsList : 								https://live.sysinternals.com/pslist.exe
+			* PsList 64-bit : 						https://live.sysinternals.com/pslist64.exe
+			* PsKill : 								https://live.sysinternals.com/pskill.exe
+			* PsKill 64-bit : 						https://live.sysinternals.com/pskill64.exe
+			* PsSuspend : 							https://live.sysinternals.com/pssuspend.exe
+			* PsSuspend 64-bit :					https://live.sysinternals.com/pssuspend64.exe
+
+		→ Debugging
+			* DebugView : 							https://live.sysinternals.com/Dbgview.exe
+			* LiveKd : 								https://live.sysinternals.com/livekd.exe
+			* LiveKd 64-bit : 						https://live.sysinternals.com/livekd64.exe
+
+		→ Divers
+			* LogonSessions : 						https://live.sysinternals.com/logonsessions.exe
+			* LogonSessions 64-bit : 				https://live.sysinternals.com/logonsessions64.exe
+			* Coreinfo : 							https://live.sysinternals.com/Coreinfo.exe
+			* Coreinfo 64-bit : 					https://live.sysinternals.com/Coreinfo64.exe
+			* YaraRules	:							https://github.com/yara-rules/rules
+			
+		→ ALL TOOLS	SSA
+			* ScreenSharing Alliance :				https://cdn.discordapp.com/attachments/1479888560218701958/1479898670345486450/SSA.exe?ex=69b8428a&is=69b6f10a&hm=8a1e3c0393e85f85ad452d381d2e336f5be10414d7f53bf1a8597c65eed8eb72&

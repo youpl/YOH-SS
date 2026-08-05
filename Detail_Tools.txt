@@ -1,0 +1,790 @@
+## ANNEXE TOOLS
+	* Pack SysInternals Complet
+		* Lien : https://download.sysinternals.com/files/SysinternalsSuite.zip
+		* Fonctionnalité : Pack contenant tous les outils SysInternals (portables, signés Microsoft)
+		* Utilité en Forensic : Permet d'avoir tous les outils d'analyse système en un seul téléchargement
+		* Type de cheat/bypass recherché : Tous types (analyse complète du système)
+
+	# Analyse Processus & Mémoire
+		* Process Hacker 2
+			* Lien : https://sourceforge.net/projects/processhacker/files/processhacker2/processhacker-2.39-setup.exe/download
+			* Fonctionnalité : Gestionnaire de tâches avancé avec analyse mémoire, handles, threads, modules
+			* Utilité en Forensic :
+				→ Identifier processus cachés ou injectés
+				→ Analyser la mémoire d'un processus (dumps, strings)
+				→ Lister les DLLs chargées et handles ouverts
+				→ Détecter les hooks et injections
+			* Type de cheat/bypass recherché :
+				→ Cheats injectés dans javaw.exe
+				→ Loaders résidant en mémoire
+				→ Hooks clavier/souris (autoclickers)
+				→ DLLs malveillantes chargées
+				→ → Processus déguisés (ex: svchost.exe renommé)
+				
+		* Process Hacker 3 (System Informer)
+			* Lien : https://github.com/winsiderss/si-builds/releases/download/3.0.5553/systeminformer-3.0.5553-setup.exe
+			* Fonctionnalité : Version modernisée de Process Hacker avec interface améliorée et nouvelles fonctionnalités
+			* Utilité en Forensic :
+				→ Analyse mémoire plus performante
+				→ Détection de code injecté
+				→ Meilleure visualisation des threads et handles
+				→ Support Windows 11
+			* Type de cheat/bypass recherché :
+				→ Injections mémoire fileless
+				→ Cheats Java externes (via strings en mémoire)
+				→ Code chargé dynamiquement
+				→ Bypasses anti-debug
+
+
+		* Process Explorer (SysInternals)
+			* Lien : https://live.sysinternals.com/procexp.exe (32-bit) / https://live.sysinternals.com/procexp64.exe (64-bit)
+			* Fonctionnalité : Gestionnaire de processus avancé avec arbre hiérarchique et vérification de signatures
+			* Utilité en Forensic :
+				→ Voir les relations parent-enfant entre processus
+				→ Vérifier les signatures numériques (fichiers non signés = suspects)
+				→ Identifier les processus consommant des ressources
+				→ Analyser les DLLs et handles
+			* Type de cheat/bypass recherché :
+				→ Loaders lançant des processus enfants
+				→ Exécutables non signés
+				→ Processus masqués sous des noms légitimes
+				→ Injections de DLLs
+
+
+		*  Process Monitor (Procmon)
+			* Lien : https://live.sysinternals.com/Procmon.exe (32-bit) / https://live.sysinternals.com/Procmon64.exe (64-bit)
+			* Fonctionnalité : Moniteur temps réel des activités fichiers, registre, réseau et processus
+			* Utilité en Forensic :
+				→ Capturer toutes les actions d'un processus suspect
+				→ Voir les fichiers créés/modifiés/supprimés
+				→ Détecter les modifications de registre
+				→ Tracer les connexions réseau
+			* Type de cheat/bypass recherché :
+				→ Loaders téléchargeant des payloads
+				→ Modifications de registre (persistence)
+				→ Création de fichiers temporaires (.dll, .exe)
+				→ Communications C2 (Command & Control)
+				→ Bypass UAC
+
+
+	# Analyse Réseau
+		* TCPView
+			* Lien : https://live.sysinternals.com/Tcpview.exe
+			* Fonctionnalité : Affiche toutes les connexions TCP/UDP actives avec processus associé
+			* Utilité en Forensic :
+				→ Identifier les connexions suspectes en temps réel
+				→ Voir les IPs et ports utilisés par chaque processus
+				→ Détecter des communications vers des serveurs C2
+			* Type de cheat/bypass recherché :
+				→ Connexions vers serveurs de cheat (vape.gg, intent.store, etc.)
+				→ Communications C2 (pastebin, GitHub raw, Discord webhooks)
+				→ Exfiltration de données
+				→ Téléchargement de payloads
+				→ Backdoors réseau
+
+
+		* Wireshark
+			* Lien : https://www.wireshark.org/download.html
+			* Fonctionnalité : Analyseur de paquets réseau avec capture et décodage de protocoles
+			* Utilité en Forensic :
+				→ Capturer tout le trafic réseau
+				→ Analyser les requêtes HTTP/HTTPS/DNS
+				→ Extraire des fichiers téléchargés
+				→ Décoder les communications chiffrées
+			* Type de cheat/bypass recherché :
+				→ Téléchargements de cheats (URLs pastebin, GitHub)
+				→ Requêtes DNS vers domaines suspects
+				→ Payload injection via réseau
+				→ Communications chiffrées avec serveurs C2
+				→ Webhooks Discord (exfiltration de données)
+
+
+	# Analyse Binaires & Fichiers
+		* Strings / Strings64
+			* Lien : https://live.sysinternals.com/strings.exe (32-bit) / https://live.sysinternals.com/strings64.exe (64-bit)
+			* Fonctionnalité : Extrait les chaînes de caractères ASCII/Unicode d'un fichier binaire
+			* Utilité en Forensic :
+				→ Identifier des mots-clés suspects dans un exécutable
+				→ Comparer deux versions d'un fichier (légitime vs modifié)
+				→ Trouver des URLs, IPs, chemins hardcodés
+				→ Détecter des strings de cheat ("inject", "bypass", "hook")
+			* Type de cheat/bypass recherché :
+				→ Noms de fonctions de hooking (SetWindowsHookEx, VirtualAllocEx)
+				→ URLs de serveurs C2
+				→ Strings identifiant le cheat (ex: "Vape V4", "LiquidBounce")
+				→ Chemins de fichiers suspects
+				→ Fonctions anti-debug
+
+
+		* PEStudio
+			* Lien : https://www.winitor.com/download
+			* Fonctionnalité : Analyse statique de fichiers PE (Portable Executable) avec détection d'anomalies
+			* Utilité en Forensic :
+				→ Identifier les sections suspectes (haute entropie = crypté)
+				→ Analyser les imports (fonctions Windows utilisées)
+				→ Détecter les packers/crypters (UPX, Themida)
+				→ Vérifier les signatures numériques
+				→ Extraire les strings automatiquement
+			* Type de cheat/bypass recherché :
+				→ Binaires packés/cryptés (cache le code)
+				→ Imports suspects (WriteProcessMemory, CreateRemoteThread)
+				→ Fichiers non signés
+				→ Entropie élevée (section .text > 7.5 = suspect)
+				→ Anti-debug / anti-VM
+
+
+		* Detect It Easy (DIE)
+			* Lien : https://github.com/horsicq/Detect-It-Easy/releases
+			* Fonctionnalité : Détection automatique de packers, crypters, compilateurs et protections
+			* Utilité en Forensic :
+				→ Identifier le packer utilisé (UPX, ASPack, VMProtect)
+				→ Détecter les protections anti-debug
+				→ Analyser l'entropie des sections
+				→ Reconnaître le compilateur/langage
+			* Type de cheat/bypass recherché :
+				→ Loaders protégés par VMProtect/Themida
+				→ Cheats packés pour éviter la détection
+				→ Fichiers compilés avec obfuscation
+				→ Anti-tampering / anti-VM
+
+
+		* Sigcheck / Sigcheck64
+			* Lien : https://live.sysinternals.com/sigcheck.exe (32-bit) / https://live.sysinternals.com/sigcheck64.exe (64-bit)
+			* Fonctionnalité : Vérifie les signatures numériques et interroge VirusTotal
+			* Utilité en Forensic :
+				→ Identifier les fichiers non signés (suspects)
+				→ Vérifier si un hash est connu sur VirusTotal
+				→ Lister les fichiers d'un dossier avec leur statut de signature
+			* Type de cheat/bypass recherché :
+				→ Exécutables non signés (loaders, cheats)
+				→ Fichiers avec signatures invalides
+				→ Binaires détectés par VirusTotal
+				→ DLLs malveillantes
+
+	# Analyse Forensic Windows
+		* fsutil USN Journal (Windows natif)
+			* Lien : Outil intégré Windows (aucun téléchargement nécessaire)
+			* Fonctionnalité : Interroge et lit le Change Journal NTFS d'un volume
+			* Utilité en Forensic :
+				→ Détecter les créations, suppressions et renommages de fichiers
+				→ Conserver un export source avec `usn_all.csv`
+				→ Repérer des traces de nettoyage ou de dissimulation
+				→ Identifier les fichiers .jar/.exe/.bat/.dll manipulés récemment
+			* Type de cheat/bypass recherché :
+				→ Loaders créés puis supprimés
+				→ Cheats Java externes (.jar)
+				→ Scripts de lancement ou nettoyage (.bat/.ps1)
+				→ DLLs renommées ou injectées puis supprimées
+				→ Tentatives anti-forensic via suppression de traces
+			* Commandes utiles :
+				→ fsutil usn queryjournal C:
+				→ fsutil usn readjournal C: csv > usn_all.csv
+				→ fsutil hardlink list C:\chemin\fichier.exe
+
+		* JournalTrace
+			* Lien : outil à utiliser depuis votre pack / source habituelle
+			* Fonctionnalité : Lecture graphique du journal NTFS / USN avec reconstruction de champs utiles
+			* Utilité en Forensic :
+				→ Filtrer rapidement sur Reason = Hard Link / Hard link change
+				→ Voir Name, Directory, Current file et File Identification
+				→ Retrouver un hardlink supprimé après selfdestruct
+				→ Associer un alias supprimé à un fichier courant
+			* Type de cheat/bypass recherché :
+				→ javaw.security lié à un fichier .pf déguisé
+				→ BLUE.pf / fichier payload sans logs classiques
+				→ Hardlink dans dossiers Java / PrismLauncher / Temp
+				→ Bypass qui supprime l'alias avant la vérification
+			* À relever :
+				→ Name
+				→ Directory
+				→ Current file
+				→ Reason
+				→ Date
+				→ File Identification
+
+		* AmcacheParser
+			* Lien : https://download.ericzimmermanstools.com/net9/AmcacheParser.zip
+			* Fonctionnalité : Parse la ruche Amcache.hve et génère des CSV exploitables
+			* Utilité en Forensic :
+				→ Retrouver des exécutables supprimés ou déplacés
+				→ Obtenir chemins, noms, SHA1, éditeurs et timestamps
+				→ Identifier un loader même si son fichier n'est plus présent
+				→ Corréler un nom USN / Prefetch avec un chemin et un hash
+			* Type de cheat/bypass recherché :
+				→ Loaders portables exécutés puis supprimés
+				→ Autoclickers .exe
+				→ DLLs suspectes inventoriées
+				→ Exécutables dans AppData / Temp / Downloads / Desktop / OneDrive
+				→ Fichiers renommés pour dissimulation
+			* Commande utile :
+				→ AmcacheParser.exe -f C:\Windows\AppCompat\Programs\Amcache.hve --csv C:\Sortie
+
+		* Registry Explorer
+			* Lien : https://download.ericzimmermanstools.com/net9/RegistryExplorer.zip
+			* Fonctionnalité : Visualiseur graphique de ruches registre Windows
+			* Utilité en Forensic :
+				→ Ouvrir Amcache.hve directement
+				→ Ouvrir la ruche SYSTEM pour BAM/DAM
+				→ Ouvrir NTUSER.DAT / UsrClass.dat pour l'activité utilisateur
+				→ Rechercher un nom, chemin ou hash précis
+				→ Vérifier manuellement une entrée Amcache
+				→ Explorer une ruche sans la charger dans le registre système
+			* Type de cheat/bypass recherché :
+				→ Confirmation d'un loader repéré par AmcacheParser
+				→ Vérification d'un chemin BAM associé à un utilisateur
+				→ Vérification de RunMRU / RecentDocs / UserAssist
+				→ Vérification manuelle d'un chemin suspect
+				→ Recherche de traces dans une ruche copiée
+			* Usage utile :
+				→ File -> Load Hive -> Amcache.hve / SYSTEM / NTUSER.DAT / UsrClass.dat
+
+		* RECmd
+			* Lien : https://download.ericzimmermanstools.com/net9/RECmd.zip
+			* Fonctionnalité : Outil CLI pour rechercher, exporter et analyser des ruches registre Windows
+			* Utilité en Forensic :
+				→ Exporter des clés registre en CSV
+				→ Analyser une ruche SYSTEM copiée
+				→ Rechercher une clé BAM / DAM hors-ligne
+				→ Exporter RunMRU / RecentDocs / UserAssist depuis NTUSER.DAT
+				→ Documenter proprement une extraction registre
+			* Type de cheat/bypass recherché :
+				→ Exécution par utilisateur via BAM
+				→ Programme lancé manuellement via UserAssist
+				→ Commande suspecte tapée via Windows + R
+				→ Persistence dans clés Run / RunOnce
+				→ Tâches / services / traces registre suspectes
+				→ Programmes supprimés mais encore référencés
+			* Commande utile :
+				→ RECmd.exe -f C:\Windows\System32\config\SYSTEM --kn "ControlSet001\Services\bam\State\UserSettings" --csv C:\Sortie
+
+		* Timeline Explorer
+			* Lien : https://download.ericzimmermanstools.com/net9/TimelineExplorer.zip
+			* Fonctionnalité : Visualiseur de CSV avec timeline et filtres avancés
+			* Utilité en Forensic :
+				→ Analyser les exports SRUM, Prefetch, Windows.db, Amcache, BAM, NTUSER
+				→ Construire des timelines d'événements
+				→ Filtrer et corréler des données temporelles
+				→ Grouper les résultats Windows.db par Work Id
+			* Type de cheat/bypass recherché :
+				→ Corrélation temporelle loader + Minecraft
+				→ Timeline d'exécution de fichiers suspects
+				→ Activité réseau pendant le jeu
+
+		* Windows Database Parser
+			* Lien : https://github.com/detect-ac/Windows-Sqlite-DB-Parser/releases/download/forensics/Windows.Sqlite.Database.Parser.exe
+			* Fonctionnalité : Parse la base Windows Search (Windows.db) pour extraire l'historique d'activité
+			* Utilité en Forensic :
+				→ Lister des fichiers visibles / indexés par Windows Search
+				→ Identifier des exécutables supprimés ou renommés
+				→ Retrouver des chemins, URLs et métadonnées fragmentées
+				→ Construire une timeline d'activité utilisateur
+			* Type de cheat/bypass recherché :
+				→ Loaders exécutés puis supprimés
+				→ Scripts PowerShell suspects
+				→ URLs de payload
+				→ Fichiers renommés pour dissimulation
+			* Point important :
+				→ Regrouper les lignes par Work Id dans Timeline Explorer
+
+		* SrumECmd	
+			* Lien : https://download.ericzimmermanstools.com/SrumECmd.zip
+			* Fonctionnalité : Parse la base SRUM (System Resource Usage Monitor) pour extraire l'utilisation CPU/réseau
+			* Utilité en Forensic :
+				→ Prouver qu'un loader et Minecraft étaient actifs simultanément
+				→ Voir l'activité réseau d'un processus
+				→ Corréler temporellement des exécutables
+				→ Identifier l'utilisateur via UserId / SID
+			* Type de cheat/bypass recherché :
+				→ Loaders actifs pendant la session de jeu
+				→ Activité réseau suspecte (téléchargements)
+				→ Consommation CPU anormale ou présence courte mais pertinente
+				→ Exécutable suspect actif proche de javaw.exe
+			* Commande utile :
+				→ SrumECmd.exe -f C:\Windows\System32\sru\SRUDB.dat --csv C:\Sortie
+
+		* PECmd (Prefetch)
+			* Lien : https://download.ericzimmermanstools.com/net9/PECmd.zip
+			* Fonctionnalité : Parse les fichiers Prefetch (.pf) pour extraire l'historique d'exécution
+			* Utilité en Forensic :
+				→ → Prouver qu'un programme a été exécuté
+				→ → Voir les fichiers chargés lors de l'exécution
+				→ → Identifier les programmes supprimés
+			* Type de cheat/bypass recherché :
+				→ → Cheats exécutés puis supprimés
+				→ → Loaders portables
+				→ → Autoclickers
+				→ → Scripts .bat / .ps1
+
+		* WinPrefetchView
+			* Lien : https://www.nirsoft.net/utils/trans/winprefetchview_french.zip
+			* Fonctionnalité : Interface graphique pour visualiser les fichiers Prefetch
+			* Utilité en Forensic :
+				→ → Analyser visuellement les exécutions récentes
+				→ → Trier par date de dernière exécution
+				→ → Identifier rapidement des fichiers suspects
+			* Type de cheat/bypass recherché :
+				→ → Noms de fichiers évocateurs (autoclicker.exe, vape.exe)
+				→ → Exécutables avec noms aléatoires
+				→ → Programmes lancés pendant la session Minecraft
+
+	# Analyse Activité Utilisateur
+
+		* LastActivityView
+			* Lien : https://www.nirsoft.net/utils/trans/lastactivityview_french1.zip
+			* Fonctionnalité : Affiche l'historique des actions utilisateur (fichiers ouverts, programmes exécutés, etc.)
+			* Utilité en Forensic :
+				→ → Timeline complète de l'activité récente
+				→ → Identifier des fichiers suspects manipulés
+				→ → Voir les programmes exécutés
+			* Type de cheat/bypass recherché :
+				→ → Fichiers .exe/.jar ouverts récemment
+				→ → Scripts téléchargés et exécutés
+				→ → Archives extraites (cheats packés)
+
+		* UserAssistView
+			* Lien : https://www.nirsoft.net/utils/userassistview.zip
+			* Fonctionnalité : Extrait l'historique UserAssist (programmes lancés via GUI)
+			* Utilité en Forensic :
+				→ → Voir tous les programmes lancés manuellement
+				→ → Compter le nombre d'exécutions
+				→ → Identifier des programmes cachés
+			* Type de cheat/bypass recherché :
+				→ → Loaders lancés manuellement
+				→ → Autoclickers
+				→ → Outils de bypass
+
+		* RecentFilesView
+			* Lien : https://www.nirsoft.net/utils/recentfilesview.zip
+			* Fonctionnalité : Liste tous les fichiers récemment ouverts/modifiés
+			* Utilité en Forensic :
+				→ → Identifier des fichiers suspects manipulés
+				→ → Voir les archives extraites
+				→ → Tracer l'activité récente
+			* Type de cheat/bypass recherché :
+				→ → Cheats téléchargés (fichiers .zip, .rar)
+				→ → Configurations de cheat (.json, .cfg)
+				→ → Scripts modifiés
+
+
+		* ExecutedProgramList
+			* Lien : https://www.nirsoft.net/utils/executedprogramslist.zip
+			* Fonctionnalité : Liste tous les programmes exécutés récemment (Prefetch + autres sources)
+			* Utilité en Forensic :
+				→ → Vue consolidée de tous les exécutables lancés
+				→ → Dates de première et dernière exécution
+				→ → Nombre d'exécutions
+			* Type de cheat/bypass recherché :
+				→ → Loaders portables
+				→ → Autoclickers
+				→ → Scripts de nettoyage (.bat)
+
+	# Recherche & Exploration
+
+		* Everything
+			* Lien : https://www.voidtools.com/Everything-1.4.1.1022.x86-Setup.exe
+			* Fonctionnalité : Moteur de recherche ultra-rapide indexant tout le disque
+			* Utilité en Forensic :
+				→ → Rechercher des fichiers suspects par nom/extension
+				→ → Trouver des fichiers cachés ou renommés
+				→ → Recherche par date de modification
+			* Type de cheat/bypass recherché :
+				→ → Fichiers avec noms suspects (loader, inject, bypass)
+				→ Archives .zip/.rar dans des dossiers temporaires
+				→ Scripts .bat/.ps1/.ahk
+				→ DLLs dans AppData
+
+		* Persistence & AutoRun
+			* Autoruns / Autoruns64
+				* Lien : https://live.sysinternals.com/Autoruns.exe (32-bit) / https://live.sysinternals.com/Autoruns64.exe (64-bit)
+				* Fonctionnalité : Liste tous les programmes configurés pour démarrer automatiquement
+				* Utilité en Forensic :
+					→ Détecter des mécanismes de persistence
+					→ Identifier des programmes lancés au démarrage
+					→ Vérifier les tâches planifiées, services, drivers
+				* Type de cheat/bypass recherché :
+					→ Loaders en démarrage automatique
+					→ Services malveillants
+					→ Tâches planifiées suspectes
+					→ Drivers kernel-mode
+					→ Clés de registre Run/RunOnce				
+
+
+	# Handles & DLLs
+		* Handle / Handle64
+			* Lien : https://live.sysinternals.com/handle.exe (32-bit) / https://live.sysinternals.com/handle64.exe (64-bit)
+			* Fonctionnalité : Liste tous les handles (fichiers, registre, threads) ouverts par les processus
+			* Utilité en Forensic :
+				→ Voir les fichiers actuellement ouverts par un processus
+				→ Identifier des locks sur des fichiers suspects
+				→ Détecter des handles vers des processus distants (injection)
+			* Type de cheat/bypass recherché :
+				→ Handles vers javaw.exe depuis un loader
+				→ Fichiers .dll verrouillés par un cheat
+				→ Handles suspects (pipes, mutexes)
+
+
+		* ListDLLs / ListDLLs64
+			* Lien : https://live.sysinternals.com/Listdlls.exe (32-bit) / https://live.sysinternals.com/Listdlls64.exe (64-bit)
+			* Fonctionnalité : Liste toutes les DLLs chargées par chaque processus
+			* Utilité en Forensic :
+				→ Identifier des DLLs injectées
+				→ Détecter des hooks (user32.dll, kernel32.dll)
+				→ Voir les chemins des DLLs (suspects si dans AppData/Temp)
+			* Type de cheat/bypass recherché :
+				→ DLLs malveillantes injectées dans javaw.exe
+				→ Hooks clavier/souris
+				→ Chargements depuis dossiers temporaires
+				
+	# Permissions & Sécurité
+		* AccessChk / AccessChk64
+			* Lien : https://live.sysinternals.com/accesschk.exe (32-bit) / https://live.sysinternals.com/accesschk64.exe (64-bit)
+			* Fonctionnalité : Vérifie les permissions sur fichiers, registre, services, processus
+			* Utilité en Forensic :
+				→ Identifier des fichiers/dossiers avec permissions anormales
+				→ Vérifier si un utilisateur non-admin a accès à des ressources système
+				→ Détecter des escalades de privilèges
+			* Type de cheat/bypass recherché :
+				→ Fichiers système modifiables par utilisateur standard
+				→ Services avec permissions faibles (exploitation)
+				→ Bypass UAC via permissions
+
+
+		* AccessEnum
+			* Lien : https://live.sysinternals.com/AccessEnum.exe
+			* Fonctionnalité : Énumère les permissions sur arborescence de fichiers/registre
+			* Utilité en Forensic :
+				→ Scanner récursivement des dossiers pour permissions anormales
+				→ Identifier des backdoors (fichiers accessibles par Everyone)
+			* Type de cheat/bypass recherché :
+				→ Dossiers système modifiables
+				→ Clés de registre altérables par utilisateur standard
+
+
+	# Drivers & Kernel
+		* DriverView
+			* Lien : https://live.sysinternals.com/Driverview.exe
+			* Fonctionnalité : Liste tous les drivers chargés avec détails (version, fabricant, chemin)
+			* Utilité en Forensic :
+				→ Identifier des drivers non-Microsoft suspects
+				→ Détecter des drivers vulnérables exploités (capcom.sys, gdrv.sys)
+				→ Voir les drivers non signés
+			* Type de cheat/bypass recherché :
+				→ Cheats kernel-mode (DMA, EAC bypass)
+				→ Drivers vulnérables (mapping de code kernel)
+				→ Rootkits
+				→ Drivers de DMA hardware
+			* Drivers critiques à surveiller :
+				→ capcom.sys, gdrv.sys, dbutil_2_3.sys, asio.sys, RTCore64.sys, WinRing0x64.sys
+
+	# USB & Périphériques
+		* USB DEVIEW
+			* Lien : https://www.nirsoft.net/utils/trans/usbdeview_french.zip
+			* Fonctionnalité : Liste tous les périphériques USB connectés (actuels et passés)
+			* Utilité en Forensic :
+				→ Identifier des dispositifs DMA (PCILeech)
+				→ Voir les clés USB utilisées pour transférer des cheats
+				→ Détecter des périphériques suspects (Teensy, Arduino)
+			* Type de cheat/bypass recherché :
+				→ Cartes DMA (PCIe, Thunderbolt)
+				→ Clés USB contenant des cheats
+				→ Périphériques HID modifiés (macros hardware)
+				→ Dispositifs inconnus/non identifiés
+
+
+	# Dump Mémoire
+		* ProcDump / ProcDump64
+			* Lien : https://live.sysinternals.com/procdump.exe (32-bit) / https://live.sysinternals.com/procdump64.exe (64-bit)
+			* Fonctionnalité : Crée un dump mémoire complet d'un processus
+			* Utilité en Forensic :
+				→ Capturer l'état mémoire de javaw.exe
+				→ Analyser le dump hors-ligne
+				→ Extraire des strings/code injecté
+			* Type de cheat/bypass recherché :
+				→ Code injecté en mémoire (fileless)
+				→ Strings de cheat chargés dynamiquement
+				→ Hooks mémoire
+			
+		* VMMap
+			* Lien : https://live.sysinternals.com/vmmap.exe
+			* Fonctionnalité : Visualise l'allocation mémoire d'un processus
+			* Utilité en Forensic :
+				→ Identifier des régions mémoire suspectes
+				→ Détecter des allocations anormales (RWX = exécutable)
+				→ Voir les mappings de DLLs
+			* Type de cheat/bypass recherché :
+				→ Mémoire allouée avec permissions RWX (shellcode)
+				→ DLLs mappées depuis chemins suspects
+				→ Injections de code
+
+
+		* RAMMap
+			* Lien : https://live.sysinternals.com/RAMMap.exe
+			* Fonctionnalité : Analyse l'utilisation globale de la RAM système
+			* Utilité en Forensic :
+				→ Identifier des fuites mémoire
+				→ Voir les processus consommant le plus de RAM
+			* Type de cheat/bypass recherché :
+				→ Processus cachés consommant de la RAM
+				→ Cheats résidant uniquement en mémoire
+
+
+	# Décompilation & Reverse
+		* Ghidra
+			* Lien : https://ghidra-sre.org/
+			* Fonctionnalité : Décompilateur/désassembleur open-source (NSA)
+			* Utilité en Forensic :
+				→ 	Décompiler un binaire suspect
+				→ 	Analyser le code assembleur
+				→ 	Identifier les fonctions malveillantes
+			* Type de cheat/bypass recherché :
+				→ 	Analyse approfondie de loaders
+				→ 	Reverse engineering de cheats
+				→ 	Identification de fonctions d'injection
+				→ 	Détection d'obfuscation
+
+
+		* IDA Free
+			* Lien : https://hex-rays.com/ida-free/
+			* Fonctionnalité : Désassembleur professionnel (version gratuite limitée)
+			* Utilité en Forensic :
+				→ Analyse statique de binaires
+				→ Graphes de flux de contrôle
+				→ Identification de fonctions
+			* Type de cheat/bypass recherché :
+				→ Analyse approfondie de loaders
+				→ Reverse engineering de cheats
+				→ Identification de fonctions d'injection
+				→ Détection d'obfuscation
+
+
+	# Logs & Événements
+		* EvtxECmd
+			* Lien : https://download.ericzimmermanstools.com/net9/EvtxECmd.zip
+			* Fonctionnalité : Parse les fichiers EventLogs Windows (.evtx) en CSV
+			* Utilité en Forensic :
+				→ Exporter Application / System / Security en CSV
+				→ Rechercher PowerShell, services, tâches planifiées et log clearing
+				→ Construire une timeline lisible avec Timeline Explorer
+				→ Confirmer les horaires autour de Minecraft
+			* Type de cheat/bypass recherché :
+				→ Script PowerShell suspect
+				→ Service installé pour persistence
+				→ Tâche planifiée de loader
+				→ Journal vidé volontairement
+				→ Crash de loader / .NET / application inconnue
+			* Commande utile :
+				→ EvtxECmd.exe -d C:\LogsEVTX --csv C:\SortieCSV
+
+		* PsLogList / PsLogList64
+			* Lien : https://live.sysinternals.com/psloglist.exe (32-bit) / https://live.sysinternals.com/psloglist64.exe (64-bit)
+			* Fonctionnalité : Dump des EventLogs Windows en ligne de commande
+			* Utilité en Forensic :
+				→ Extraire rapidement les logs système
+				→ Rechercher des événements spécifiques
+				→ Export automatisé
+			* Type de cheat/bypass recherché :
+				→ Erreurs liées à des crashs suspects
+				→ Événements de sécurité (élévations privilèges)
+				→ Logs de drivers chargés
+
+
+		* Sysmon / Sysmon64
+			* Lien : https://live.sysinternals.com/Sysmon.exe (32-bit) / https://live.sysinternals.com/Sysmon64.exe (64-bit)
+			* Fonctionnalité : Service de monitoring avancé (création processus, connexions réseau, etc.)
+			* Utilité en Forensic :
+				→ Logger TOUTES les créations de processus
+				→ Tracer les connexions réseau
+				→ Enregistrer les chargements de DLLs
+			* Type de cheat/bypass recherché :
+				→ Timeline complète d'activité suspecte
+				→ Loaders créant des processus enfants
+				→ Connexions C2
+				→ Injections de DLLs
+			* Note : Doit être installé AVANT l'incident (logging proactif)
+	# Réseau Avancé
+		
+		* PsPing / PsPing64
+			* Lien : https://live.sysinternals.com/psping.exe (32-bit) / https://live.sysinternals.com/psping64.exe (64-bit)
+			* Fonctionnalité : Outil de test réseau avancé (ping, TCP, latence, bande passante)
+			* Utilité en Forensic :
+				→ Tester la connectivité vers IPs suspectes
+				→ Mesurer la latence vers serveurs C2
+			* Type de cheat/bypass recherché :
+				→ Vérifier si une IP de cheat est joignable
+				→ Tester des serveurs C2 identifiés
+
+
+		* Whois / Whois64
+			* Lien : https://live.sysinternals.com/whois.exe (32-bit) / https://live.sysinternals.com/whois64.exe (64-bit)
+			* Fonctionnalité : Interroge les bases Whois pour obtenir infos sur domaines/IPs
+			* Utilité en Forensic :
+				→ Identifier le propriétaire d'un domaine suspect
+				→ Vérifier la date de création d'un domaine (récent = suspect)
+				→ Géolocaliser une IP
+			* Type de cheat/bypass recherché :
+				→ Domaines de cheat récemment créés
+				→ Serveurs C2 hébergés dans des pays à risque
+			* Commande utile :
+				→ cmdwhois.exe vape.gg
+
+	# Fichiers & Disque
+		* MFTECmd
+			* Lien : https://download.ericzimmermanstools.com/net9/MFTECmd.zip
+			* Fonctionnalité : Parse la Master File Table NTFS ($MFT) en CSV
+			* Utilité en Forensic :
+				→ Retrouver les noms / chemins de fichiers présents ou supprimés
+				→ Identifier les timestamps de création / modification / renommage
+				→ Confirmer qu'un loader a existé sur le disque
+				→ Corréler MFT avec USN, Prefetch, Amcache et SRUM
+			* Type de cheat/bypass recherché :
+				→ Loader supprimé après utilisation
+				→ .jar / .exe / .bat / .dll renommé
+				→ Archive de cheat extraite puis supprimée
+				→ Script présent brièvement dans Temp / Downloads
+			* Commande utile :
+				→ MFTECmd.exe -f 'C:\$MFT' --csv C:\Sortie --csvf mft.csv
+
+		* Streams (ADS)
+			* Lien : https://live.sysinternals.com/streams.exe (32-bit) / https://live.sysinternals.com/streams64.exe (64-bit)
+			* Fonctionnalité : Détecte et supprime les Alternate Data Streams (fichiers cachés dans NTFS)
+			* Utilité en Forensic :
+				→ Identifier des fichiers cachés dans les ADS
+				→ Détecter des marqueurs "Zone.Identifier" (fichiers téléchargés)
+			* Type de cheat/bypass recherché :
+				→ Cheats cachés dans ADS
+				→ Fichiers téléchargés depuis Internet (Zone.Identifier:$DATA)
+				→ Code malveillant dissimulé
+			* Commande utile :
+				→ cmdstreams.exe -s C:\Users\<user>\Downloads
+
+		* DiskView
+			* Lien : https://live.sysinternals.com/DiskView.exe
+			* Fonctionnalité : Visualise l'allocation des clusters sur le disque
+			* Utilité en Forensic :
+				→ Identifier des fichiers fragmentés suspects
+				→ Voir l'emplacement physique des données
+			* Type de cheat/bypass recherché :
+				→ Analyse avancée (rarement utilisé en anti-cheat)
+
+
+		* SDelete / SDelete64
+			* Lien : https://live.sysinternals.com/sdelete.exe (32-bit) / https://live.sysinternals.com/sdelete64.exe (64-bit)
+			* Fonctionnalité : Suppression sécurisée de fichiers (overwrite)
+			* Utilité en Forensic :
+				→ NON utilisé pour détection
+				→ Sert à nettoyer des preuves (si utilisé par le joueur = red flag)
+			* Type de cheat/bypass recherché :
+				→ Si présent dans l'historique d'exécution → tentative de nettoyage de traces
+
+
+	# Registre
+		* RegJump
+			* Lien : https://live.sysinternals.com/regjump.exe
+			* Fonctionnalité : Ouvre directement Regedit à une clé spécifique
+			* Utilité en Forensic :
+				→ Navigation rapide vers clés de registre suspectes
+				→ Vérification de clés de persistence
+			* Type de cheat/bypass recherché :
+				→ Clés Run/RunOnce
+				→ Clés de configuration de malware
+			* Commande utile :
+				→ cmdregjump.exe HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+
+	# Services & Processus
+		* PsService / PsService64
+			* Lien : https://live.sysinternals.com/PsService.exe (32-bit) / https://live.sysinternals.com/PsService64.exe (64-bit)
+			* Fonctionnalité : Gestion des services Windows en ligne de commande
+			* Utilité en Forensic :
+				→ Lister les services suspects
+				→ Identifier des services en démarrage automatique
+				→ Vérifier les chemins d'exécution
+			* Type de cheat/bypass recherché :
+				→ Services malveillants installés
+				→ Loaders déguisés en services système
+
+
+		* PsList / PsList64
+			* Lien : https://live.sysinternals.com/pslist.exe (32-bit) / https://live.sysinternals.com/pslist64.exe (64-bit)
+			* Fonctionnalité : Liste les processus avec détails (CPU, mémoire, threads)
+			* Utilité en Forensic :
+				→ Vue rapide des processus actifs
+				→ Export en ligne de commande
+			* Type de cheat/bypass recherché :
+				→ Processus consommant CPU/mémoire anormalement
+				→ Loaders résidents
+
+
+		* PsKill / PsKill64
+			* Lien : https://live.sysinternals.com/pskill.exe (32-bit) / https://live.sysinternals.com/pskill64.exe (64-bit)
+			* Fonctionnalité : Tue un processus (même protégé)
+			* Utilité en Forensic :
+				→ Arrêter un cheat actif
+				→ Terminer un processus bloqué
+			* Type de cheat/bypass recherché :
+				→ Processus résistants au Task Manager
+
+
+		* PsSuspend / PsSuspend64
+			* Lien : https://live.sysinternals.com/pssuspend.exe (32-bit) / https://live.sysinternals.com/pssuspend64.exe (64-bit)
+			* Fonctionnalité : Suspend/reprend un processus
+			* Utilité en Forensic :
+				→ Geler un processus suspect pour analyse
+				→ Éviter que le cheat ne se ferme
+			* Type de cheat/bypass recherché :
+				→ Suspendre un loader avant qu'il ne s'auto-détruise
+
+
+	# Debugging
+		* DebugView
+			* Lien : https://live.sysinternals.com/Dbgview.exe
+			* Fonctionnalité : Capture les messages de debug (OutputDebugString)
+			* Utilité en Forensic :
+				→ Voir les logs de debug d'applications
+				→ Identifier des messages de cheat
+			* Type de cheat/bypass recherché :
+				→ Cheats en mode debug affichant des logs
+				→ Messages d'erreur révélateurs
+
+
+		* LiveKd / LiveKd64
+			* Lien : https://live.sysinternals.com/livekd.exe (32-bit) / https://live.sysinternals.com/livekd64.exe (64-bit)
+			* Fonctionnalité : Débugger le kernel Windows en temps réel
+			* Utilité en Forensic :
+				→ Analyser le kernel pour rootkits
+				→ Détecter des hooks kernel
+			* Type de cheat/bypass recherché :
+				→ Rootkits kernel-mode
+				→ Cheats DMA avancés
+				→ Hooks SSDT (System Service Descriptor Table)
+			* Note : Très avancé, rarement utilisé en anti-cheat classique
+
+	# Divers
+		* LogonSessions / LogonSessions64
+			* Lien : https://live.sysinternals.com/logonsessions.exe (32-bit) / https://live.sysinternals.com/logonsessions64.exe (64-bit)
+			* Fonctionnalité : Liste toutes les sessions de connexion actives avec processus associés
+			* Utilité en Forensic :
+				→ Détecter des élévations de privilèges (javaw.exe en SYSTEM)
+				→ Identifier des sessions distantes (RDP)
+				→ Corréler processus à des utilisateurs
+			* Type de cheat/bypass recherché :
+				→ Processus suspects tournant sous SYSTEM
+				→ Sessions Remote Interactive pendant le jeu
+				→ Loaders avec privilèges élevés
+			* Commande utile :
+				→ cmdlogonsessions.exe -p
+
+		* Coreinfo / Coreinfo64
+			* Lien : https://live.sysinternals.com/Coreinfo.exe (32-bit) / https://live.sysinternals.com/Coreinfo64.exe (64-bit)
+			* Fonctionnalité : Affiche infos CPU, virtualisation et sécurité (SMEP, SMAP, DEP, Hyper-V)
+			* Utilité en Forensic :
+				→ Détecter des désactivations de protections kernel
+				→ Vérifier si le PC est en VM
+				→ Identifier des configurations de bypass
+			* Type de cheat/bypass recherché :
+				→ SMEP/SMAP désactivés (pour injection kernel)
+				→ DEP désactivé (pour exploitation mémoire)
+				→ Virtualisation détectée (si jeu interdit en VM)
+				→ Protections système compromises
+			* Commande utile :
+				→ cmdcoreinfo.exe
+
